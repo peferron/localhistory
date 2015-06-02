@@ -2,8 +2,8 @@
   "name": "playbyplay",
   "version": "1.0.0",
   "description": "LocalStorage history for language playgrounds.",
-  "main": "index.js",
   "scripts": {
+    "build": "mkdir -p dist && babel src --out-file dist/playbyplay.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/peferron/playbyplay/issues"
   },
-  "homepage": "https://github.com/peferron/playbyplay#readme"
+  "homepage": "https://github.com/peferron/playbyplay#readme",
+  "devDependencies": {
+    "babel": "^5.4.7"
+  }
 }
