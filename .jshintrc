@@ -1,0 +1,26 @@
+{
+    // Enforcing options
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "freeze": true,
+    "futurehostile": true,
+    "latedef": "nofunc",
+    "noarg": true,
+    "nocomma": true,
+    "nonbsp": true,
+    "nonew": true,
+    "notypeof": true,
+    "singleGroups": true,
+    "undef": true,
+    "unused": true,
+
+    // Relaxing options
+    "esnext": true,
+
+    // Environment
+    "browser": true,
+    "devel": true
+}

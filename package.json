@@ -1,0 +1,24 @@
+{
+  "name": "playbyplay",
+  "version": "1.0.0",
+  "description": "LocalStorage history for language playgrounds.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peferron/playbyplay.git"
+  },
+  "keywords": [
+    "history",
+    "playground",
+    "playpen"
+  ],
+  "author": "Pierre-Emile Ferron <peferron@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peferron/playbyplay/issues"
+  },
+  "homepage": "https://github.com/peferron/playbyplay#readme"
+}
