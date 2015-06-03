@@ -15,9 +15,7 @@ const supportsLocalStorage = (() => {
 })();
 
 const supportsJSON = 'JSON' in window && 'parse' in JSON && 'stringify' in JSON;
-
 const supportsIsArray = 'isArray' in Array;
-
 const supportsConsole = 'console' in window && 'log' in console && 'error' in console;
 
 export default function check() {

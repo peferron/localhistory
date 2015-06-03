@@ -44,7 +44,7 @@ function saveRuns(runs) {
         runs.splice(0, runs.length - maxRuns);
     }
 
-    while (true) {
+    while (true) { // eslint-disable-line no-constant-condition
         let runsStr = JSON.stringify(runs);
 
         if (runsStr.length > maxLength) {
@@ -108,7 +108,7 @@ export function load() {
 function safeParseJSON(str, fallback) {
     try {
         return JSON.parse(str);
-    } catch (e) {
+    } catch (e) { // eslint-disable-line no-empty
     }
 
     return fallback;
