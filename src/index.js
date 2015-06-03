@@ -1,7 +1,7 @@
 import support from './support';
 import * as storage from './storage';
 
-function save(run) {
+export function save(run) {
     if (!support()) {
         return;
     }
@@ -14,12 +14,10 @@ function save(run) {
     setTimeout(() => storage.save(run), 0);
 }
 
-function load() {
+export function load() {
     if (!support()) {
         return [];
     }
 
     return storage.load();
 }
-
-export default {save, load};
