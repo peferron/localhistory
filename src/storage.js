@@ -54,7 +54,7 @@ function saveRuns(runs) {
                 return;
             }
 
-            trim(runs);
+            removeFirstHalf(runs);
             continue;
         }
 
@@ -71,7 +71,7 @@ function saveRuns(runs) {
 
                 console.error('playbyplay: localStorage quota exceeded, discarding oldest ' +
                     'half of history and retrying');
-                trim(runs);
+                removeFirstHalf(runs);
                 continue;
             }
 
@@ -81,8 +81,8 @@ function saveRuns(runs) {
     }
 }
 
-function trim(runs) {
-    runs.splice(runs.length / 2, Number.MAX_VALUE);
+function removeFirstHalf(arr) {
+    arr.splice(0, Math.ceil(arr.length / 2));
 }
 
 function isQuotaError(e) {
