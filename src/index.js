@@ -19,8 +19,8 @@ export function load() {
 
 export function clear() {
     if (!support()) {
-        return [];
+        return;
     }
 
-    return storage.clear();
+    storage.clear();
 }
