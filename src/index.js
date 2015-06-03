@@ -6,11 +6,6 @@ export function save(run) {
         return;
     }
 
-    if (!run || !run.input || !run.output) {
-        console.error('playbyplay.save: input and output properties are required');
-        return;
-    }
-
     setTimeout(() => storage.save(run), 0);
 }
 

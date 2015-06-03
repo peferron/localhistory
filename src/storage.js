@@ -36,7 +36,7 @@ export function save(run) {
 }
 
 function sameRun(a, b) {
-    return a && b && a.input === b.input && a.output === b.output;
+    return JSON.stringify(a) === JSON.stringify(b);
 }
 
 function saveRuns(runs) {
