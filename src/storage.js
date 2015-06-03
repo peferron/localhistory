@@ -113,3 +113,14 @@ function safeParseJSON(str, fallback) {
 
     return fallback;
 }
+
+// Clear
+
+export function clear() {
+    try {
+        localStorage.removeItem(runsKey);
+    } catch (e) {
+        console.error('playbyplay: could not clear localStorage', e);
+    }
+}
+

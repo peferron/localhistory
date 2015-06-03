@@ -49,6 +49,13 @@
             },
             configurable: true,
             enumerable: true
+        },
+        clear: {
+            get: function () {
+                return storage__clear;
+            },
+            configurable: true,
+            enumerable: true
         }
     });
 
@@ -165,6 +172,16 @@
         return fallback;
     }
 
+    // Clear
+
+    function storage__clear() {
+        try {
+            localStorage.removeItem(runsKey);
+        } catch (e) {
+            console.error('playbyplay: could not clear localStorage', e);
+        }
+    }
+
     function index__save(run) {
         if (!check()) {
             return;
@@ -188,8 +205,17 @@
         return storage.load();
     }
 
+    function index__clear() {
+        if (!check()) {
+            return [];
+        }
+
+        return storage.clear();
+    }
+
     exports.save = index__save;
     exports.load = index__load;
+    exports.clear = index__clear;
 });
 //# sourceMappingURL=./playbyplay.js.map
 // eslint-disable-line no-empty

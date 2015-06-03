@@ -21,3 +21,11 @@ export function load() {
 
     return storage.load();
 }
+
+export function clear() {
+    if (!support()) {
+        return [];
+    }
+
+    return storage.clear();
+}

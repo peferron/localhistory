@@ -25,4 +25,9 @@ $(function() {
 
         $('#history').html($history);
     });
+
+    $('#clear').on('click', function() {
+        playbyplay.clear();
+        $('#history').html('');
+    });
 });
