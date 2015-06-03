@@ -1,7 +1,7 @@
 $(function() {
     $('#run').on('click', function() {
         var input = $('#input').val();
-        var output = encodeURIComponent(input);
+        var output = getOutput(input);
 
         playbyplay.save({
             input: input,
@@ -30,4 +30,12 @@ $(function() {
         playbyplay.clear();
         $('#history').html('');
     });
+
+    function getOutput(input) {
+        var output = 0;
+        for (var i = 0; i < input.length; i++) {
+            output += input.charCodeAt(i);
+        }
+        return output;
+    }
 });
