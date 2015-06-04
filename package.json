@@ -4,9 +4,7 @@
   "description": "LocalStorage history for language playgrounds.",
   "scripts": {
     "test": "gulp test",
-    "test-browser": "gulp test-browser",
-    "build": "gulp build",
-    "watch": "gulp watch"
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
