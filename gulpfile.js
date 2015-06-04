@@ -8,7 +8,6 @@ const glob = require('glob');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const babelify = require('babelify');
-const isparta = require('isparta');
 const esperanto = require('esperanto');
 const browserify = require('browserify');
 const runSequence = require('run-sequence');
@@ -112,18 +111,6 @@ function test() {
     return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
         .pipe($.mocha({reporter: 'dot', globals: config.mochaGlobals}));
 }
-
-gulp.task('coverage', ['lint-src', 'lint-test'], function(done) {
-    require('babel/register');
-    gulp.src(['src/**/*.js'])
-        .pipe($.istanbul({instrumenter: isparta.Instrumenter}))
-        .pipe($.istanbul.hookRequire())
-        .on('finish', function() {
-            return test()
-            .pipe($.istanbul.writeReports())
-            .on('end', done);
-        });
-});
 
 // Lint and run tests.
 gulp.task('test', ['lint-src', 'lint-test'], function() {
