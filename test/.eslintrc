@@ -6,12 +6,12 @@
     "no-unused-expressions": false
   },
   "env": {
-    "browser": true,
     "node": true,
+    "browser": true,
     "mocha": true
   },
   "globals": {
-    "spy": true,
-    "expect": true
+    "expect": true,
+    "playbyplay": true
   }
 }

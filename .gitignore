@@ -1,4 +1,4 @@
 node_modules/
 npm-debug.log
 .sublimelinterrc
-test/tmp/
+test/coverage/

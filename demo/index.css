@@ -12,8 +12,6 @@ th {
 
 #output {
     background: #F0F0F0;
-    overflow: scroll;
-    word-wrap: break-word;
 }
 
 #load {
