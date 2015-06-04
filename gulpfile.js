@@ -19,14 +19,8 @@ const mainFile = manifest.main;
 const destinationFolder = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
 
-// Remove built files.
 gulp.task('clean', function(cb) {
     del([destinationFolder], cb);
-});
-
-// Remove temporary files.
-gulp.task('clean-tmp', function(cb) {
-    del(['tmp'], cb);
 });
 
 // Send a notification when JSRC fails, to know that changes didn't build.
@@ -46,11 +40,8 @@ function createLintTask(taskName, files) {
     });
 }
 
-// Lint source code.
 createLintTask('lint-src', ['src/**/*.js']);
-
-// Lint test code.
-createLintTask('lint-test', ['test/**/*.js']);
+createLintTask('lint-test', ['test/tests/**/*.js']);
 
 // Build two versions of the library.
 gulp.task('build', ['lint-src', 'clean'], function(done) {
@@ -89,8 +80,8 @@ gulp.task('build', ['lint-src', 'clean'], function(done) {
 
 // Bundle app for unit tests.
 gulp.task('browserify', function() {
-    var testFiles = glob.sync('./test/unit/**/*');
-    var allFiles = ['./test/setup/browserify.js'].concat(testFiles);
+    var testFiles = glob.sync('./test/tests/**/*');
+    var allFiles = ['./test/browserify.js'].concat(testFiles);
     var bundler = browserify(allFiles);
     bundler.transform(babelify.configure({
         sourceMapRelative: path.join(__dirname, '/src'),
@@ -102,20 +93,8 @@ gulp.task('browserify', function() {
             this.emit('end');
         })
         .pipe($.plumber())
-        .pipe(source('./tmp/__spec-build.js'))
-        .pipe(gulp.dest(''))
-        .pipe($.livereload());
-});
-
-function test() {
-    return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
-        .pipe($.mocha({reporter: 'dot', globals: config.mochaGlobals}));
-}
-
-// Lint and run tests.
-gulp.task('test', ['lint-src', 'lint-test'], function() {
-    require('babel/register');
-    return test();
+        .pipe(source('test/tmp/test-build.js'))
+        .pipe(gulp.dest(''));
 });
 
 // Ensure that linting occurs before browserify runs. This prevents the build from breaking due to
@@ -125,16 +104,3 @@ gulp.task('build-in-sequence', function(callback) {
 });
 
 const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
-
-// Run headless unit tests after each change.
-gulp.task('watch', function() {
-    runSequence(['test'], function() {
-        gulp.watch(watchFiles, ['test']);
-    });
-});
-
-// Set up livereload environment for spec runner.
-gulp.task('test-browser', ['build-in-sequence'], function() {
-    $.livereload.listen({port: 35729, host: 'localhost', start: true});
-    return gulp.watch(watchFiles, ['build-in-sequence']);
-});

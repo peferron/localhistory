@@ -27,7 +27,6 @@
   "devDependencies": {
     "babel": "^5.0.0",
     "babel-core": "^5.2.17",
-    "babel-eslint": "^3.1.9",
     "babelify": "^6.0.0",
     "browserify": "^8.1.1",
     "chai": "^2.0.0",
@@ -40,9 +39,7 @@
     "gulp-file": "^0.2.0",
     "gulp-filter": "^2.0.0",
     "gulp-jscs": "^1.4.0",
-    "gulp-livereload": "^3.4.0",
     "gulp-load-plugins": "^0.8.0",
-    "gulp-mocha": "^2.0.0",
     "gulp-notify": "^2.1.0",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
@@ -51,16 +48,12 @@
     "mkdirp": "^0.5.0",
     "mocha": "^2.1.0",
     "run-sequence": "^1.0.2",
-    "sinon": "^1.12.2",
-    "sinon-chai": "^2.7.0",
     "vinyl-source-stream": "^1.0.0"
   },
   "babelBoilerplateOptions": {
     "entryFileName": "index",
     "exportVarName": "playbyplay",
     "mochaGlobals": [
-      "stub",
-      "spy",
       "expect"
     ]
   }
