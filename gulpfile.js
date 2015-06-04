@@ -20,18 +20,17 @@ const mainFile = manifest.main;
 const destinationFolder = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
 
-// Remove the built files
+// Remove built files.
 gulp.task('clean', function(cb) {
     del([destinationFolder], cb);
 });
 
-// Remove our temporary files
+// Remove temporary files.
 gulp.task('clean-tmp', function(cb) {
     del(['tmp'], cb);
 });
 
-// Send a notification when JSRC fails,
-// so that you know your changes didn't build
+// Send a notification when JSRC fails, to know that changes didn't build.
 function jscsNotify(file) {
     return file.jscs && file.jscs.success ? false : 'JSRC failed';
 }
@@ -48,13 +47,13 @@ function createLintTask(taskName, files) {
     });
 }
 
-// Lint our source code
+// Lint source code.
 createLintTask('lint-src', ['src/**/*.js']);
 
-// Lint our test code
+// Lint test code.
 createLintTask('lint-test', ['test/**/*.js']);
 
-// Build two versions of the library
+// Build two versions of the library.
 gulp.task('build', ['lint-src', 'clean'], function(done) {
     esperanto.bundle({
         base: 'src',
@@ -68,19 +67,19 @@ gulp.task('build', ['lint-src', 'clean'], function(done) {
             name: config.exportVarName
         });
 
-        // Write the generated sourcemap
+        // Write generated sourcemap.
         mkdirp.sync(destinationFolder);
         fs.writeFileSync(path.join(destinationFolder, exportFileName + '.js'), res.map.toString());
 
-        $.file(exportFileName + '.js', res.code, { src: true })
+        $.file(exportFileName + '.js', res.code, {src: true})
             .pipe($.plumber())
-            .pipe($.sourcemaps.init({ loadMaps: true }))
-            .pipe($.babel({ blacklist: ['useStrict'] }))
+            .pipe($.sourcemaps.init({loadMaps: true }))
+            .pipe($.babel({blacklist: ['useStrict'] }))
             .pipe($.sourcemaps.write('./', {addComment: false}))
             .pipe(gulp.dest(destinationFolder))
             .pipe($.filter(['*', '!**/*.js.map']))
             .pipe($.rename(exportFileName + '.min.js'))
-            .pipe($.sourcemaps.init({ loadMaps: true }))
+            .pipe($.sourcemaps.init({loadMaps: true}))
             .pipe($.uglify())
             .pipe($.sourcemaps.write('./'))
             .pipe(gulp.dest(destinationFolder))
@@ -89,7 +88,7 @@ gulp.task('build', ['lint-src', 'clean'], function(done) {
     .catch(done);
 });
 
-// Bundle our app for our unit tests
+// Bundle app for unit tests.
 gulp.task('browserify', function() {
     var testFiles = glob.sync('./test/unit/**/*');
     var allFiles = ['./test/setup/browserify.js'].concat(testFiles);
@@ -117,7 +116,7 @@ function test() {
 gulp.task('coverage', ['lint-src', 'lint-test'], function(done) {
     require('babel/register');
     gulp.src(['src/**/*.js'])
-        .pipe($.istanbul({ instrumenter: isparta.Instrumenter }))
+        .pipe($.istanbul({instrumenter: isparta.Instrumenter}))
         .pipe($.istanbul.hookRequire())
         .on('finish', function() {
             return test()
@@ -126,30 +125,29 @@ gulp.task('coverage', ['lint-src', 'lint-test'], function(done) {
         });
 });
 
-// Lint and run our tests
+// Lint and run tests.
 gulp.task('test', ['lint-src', 'lint-test'], function() {
     require('babel/register');
     return test();
 });
 
-// Ensure that linting occurs before browserify runs. This prevents
-// the build from breaking due to poorly formatted code.
+// Ensure that linting occurs before browserify runs. This prevents the build from breaking due to
+// poorly formatted code.
 gulp.task('build-in-sequence', function(callback) {
     runSequence(['lint-src', 'lint-test'], 'browserify', callback);
 });
 
 const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
 
-// Run the headless unit tests as you make changes.
+// Run headless unit tests after each change.
 gulp.task('watch', function() {
-    gulp.watch(watchFiles, ['test']);
+    runSequence(['test'], function() {
+        gulp.watch(watchFiles, ['test']);
+    });
 });
 
-// Set up a livereload environment for our spec runner
+// Set up livereload environment for spec runner.
 gulp.task('test-browser', ['build-in-sequence'], function() {
     $.livereload.listen({port: 35729, host: 'localhost', start: true});
     return gulp.watch(watchFiles, ['build-in-sequence']);
 });
-
-// An alias of test
-gulp.task('default', ['test']);

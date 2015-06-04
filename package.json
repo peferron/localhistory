@@ -4,7 +4,7 @@
   "description": "LocalStorage history for language playgrounds.",
   "main": "dist/playbyplay.js",
   "scripts": {
-    "test": "gulp",
+    "test": "gulp test",
     "test-browser": "gulp test-browser",
     "build": "gulp build",
     "watch": "gulp watch",
