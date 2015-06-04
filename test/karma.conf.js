@@ -12,6 +12,7 @@ module.exports = function(config) {
         reporters: ['progress', 'coverage'],
         browsers: ['PhantomJS'],
         preprocessors: {
+            'dist/playbyplay.js': ['coverage'],
             'test/tests/**/*.js': ['babel']
         },
         babelPreprocessor: {
@@ -26,9 +27,8 @@ module.exports = function(config) {
             }
         },
         coverageReporter: {
-            reporters: [
-                {type: 'lcov', dir: 'test/coverage'}
-            ]
+            type: 'lcov',
+            dir: 'test/coverage'
         }
     });
 };
