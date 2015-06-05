@@ -21,19 +21,16 @@ const supportsJSON = typeof window !== 'undefined' &&
 
 const supportsIsArray = 'isArray' in Array;
 
-const supportsConsole = typeof window !== 'undefined' &&
-    'console' in window &&
-    'log' in console &&
-    'error' in console;
-
 export default function check() {
-    if (supportsLocalStorage && supportsJSON && supportsIsArray) {
-        return true;
+    if (!supportsLocalStorage) {
+        throw new Error('localStorage is not supported');
     }
 
-    if (supportsConsole) {
-        console.error('playbyplay is not supported in this browser');
+    if (!supportsJSON) {
+        throw new Error('JSON is not supported');
     }
 
-    return false;
+    if (!supportsIsArray) {
+        throw new Error('Array.isArray is not supported');
+    }
 }

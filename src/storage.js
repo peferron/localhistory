@@ -1,32 +1,24 @@
-// Optimization ideas if benchmarking reveals performance issues:
-//
-// - Do not parse the old runs. The string obtained from localStorage must look like this:
-//       '["old_run","old_run",...]'
-//   We could stringify the new run and insert it after the opening bracket:
-//       '["new_run","old_run","old_run",...]'
-//   Bonus: when the quota is exceeded, we remove the second half of the array, which is more
-//   performant than removing the first half.
-//
-// - Compression: https://github.com/pieroxy/lz-string
-//   Could be especially good if the history contains many mostly-similar runs.
-//
-// - When trimming because of maxRuns, remove half of the array instead of typically just one run.
-//   This way, future saves will not need to trim.
-
 const runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
 
 // Max history size in bytes.
 const maxBytes = 50000;
 
-// Max length of the stored string. Assumes 16 bits per character.
+// Max length of the history string. Assumes 16 bits per character.
 const maxLength = maxBytes * 8 / 16;
 
+// Max runs in history.
 const maxRuns = 200;
 
 // Save
 
 export function save(run) {
-    const runs = load();
+    let runs;
+    try {
+        runs = load();
+    } catch (err) {
+        runs = [];
+    }
+
     if (runs.length && sameRun(run, runs[runs.length - 1])) {
         return;
     }
@@ -49,9 +41,8 @@ function saveRuns(runs) {
 
         if (runsStr.length > maxLength) {
             if (runs.length < 2) {
-                console.error(`playbyplay: cannot save run of length ${runsStr.length}, ` +
-                    `limit is ${maxLength} code units`);
-                return;
+                throw new Error(`Could not save run of length ${runsStr.length}, ` +
+                    `the maximum length is ${maxLength}`);
             }
 
             removeFirstHalf(runs);
@@ -61,22 +52,18 @@ function saveRuns(runs) {
         try {
             localStorage[runsKey] = runsStr;
             return;
-        } catch (e) {
-            if (isQuotaError(e)) {
+        } catch (err) {
+            if (isQuotaError(err)) {
                 if (runs.length < 2) {
-                    console.error(`playbyplay: cannot save run of length ${runsStr.length}, ` +
+                    throw new Error(`Could not save run of length ${runsStr.length}, ` +
                         `exceeds localStorage quota`);
-                    return;
                 }
 
-                console.warn('playbyplay: localStorage quota exceeded, discarding oldest ' +
-                    'half of history and retrying');
                 removeFirstHalf(runs);
                 continue;
             }
 
-            console.error('playbyplay: could not save run to localStorage', e);
-            return;
+            throw err;
         }
     }
 }
@@ -85,8 +72,10 @@ function removeFirstHalf(arr) {
     arr.splice(0, Math.ceil(arr.length / 2));
 }
 
-function isQuotaError(e) {
-    return e && (e.code === 22 || e.code === 1014 && e.name === 'NS_ERROR_DOM_QUOTA_REACHED');
+function isQuotaError(err) {
+    return err &&
+        (err.code === 22 ||
+         err.code === 1014 && err.name === 'NS_ERROR_DOM_QUOTA_REACHED');
 }
 
 // Load
@@ -97,30 +86,16 @@ export function load() {
         return [];
     }
 
-    const runs = safeParseJSON(runsStr);
+    const runs = JSON.parse(runsStr);
     if (!Array.isArray(runs)) {
-        return [];
+        throw new Error('Loaded runs are not an Array');
     }
 
     return runs;
 }
 
-function safeParseJSON(str, fallback) {
-    try {
-        return JSON.parse(str);
-    } catch (e) { // eslint-disable-line no-empty
-    }
-
-    return fallback;
-}
-
 // Clear
 
 export function clear() {
-    try {
-        localStorage.removeItem(runsKey);
-    } catch (e) {
-        console.error('playbyplay: could not clear localStorage', e);
-    }
+    localStorage.removeItem(runsKey);
 }
-
