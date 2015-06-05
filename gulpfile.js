@@ -12,11 +12,6 @@ const karma = require('karma').server;
 
 // Lint
 
-const dist = 'dist';
-const index = 'index.js';
-const lib = 'playbyplay.js';
-const libName = 'playbyplay';
-
 gulp.task('lint', function() {
     return gulp.src(['src/**/*.js', 'test/tests/**/*.js', '*.js', 'test/*.js'])
         .pipe($.eslint())
@@ -26,6 +21,11 @@ gulp.task('lint', function() {
 });
 
 // Build
+
+const dist = 'dist';
+const index = 'index.js';
+const lib = 'playbyplay.js';
+const libName = 'playbyplay';
 
 gulp.task('clean', function(cb) {
     del([dist, 'test/coverage'], cb);
