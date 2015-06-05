@@ -7,13 +7,14 @@ const del = require('del');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const esperanto = require('esperanto');
-const source = require('vinyl-source-stream');
-const karma = require('karma').server;
+const karma = require('karma');
+
+const js = ['src/**/*.js', 'test/tests/**/*.js', '*.js', 'test/*.js'];
 
 // Lint
 
 gulp.task('lint', function() {
-    return gulp.src(['src/**/*.js', 'test/tests/**/*.js', '*.js', 'test/*.js'])
+    return gulp.src(js)
         .pipe($.eslint())
         .pipe($.eslint.format())
         .pipe($.eslint.failOnError())
@@ -25,50 +26,67 @@ gulp.task('lint', function() {
 const dist = 'dist';
 const index = 'index.js';
 const lib = 'playbyplay.js';
-const libName = 'playbyplay';
+const exportedName = 'playbyplay';
 
-gulp.task('clean', function(cb) {
-    del([dist, 'test/coverage'], cb);
+gulp.task('clean', function(done) {
+    del([dist, 'test/coverage'], done);
 });
 
-gulp.task('build', ['lint', 'clean'], function(done) {
+gulp.task('build', function(done) {
     esperanto.bundle({
         base: 'src',
         entry: index
     }).then(function(bundle) {
-        var res = bundle.toUmd({
+        const res = bundle.toUmd({
             strict: true,
             sourceMap: true,
             sourceMapSource: index,
             sourceMapFile: lib,
-            name: libName
+            name: exportedName
         });
 
-        // Write generated sourcemap.
         mkdirp.sync(dist);
-        fs.writeFileSync(path.join(dist, lib), res.map.toString());
+        const map = path.join(dist, 'map.json');
+        fs.writeFileSync(map, res.map.toString());
 
-        $.file(lib, res.code, {src: true})
-            .pipe($.sourcemaps.init({loadMaps: true }))
-            .pipe($.babel({blacklist: ['useStrict'] }))
-            .pipe($.sourcemaps.write('./', {addComment: false}))
+        $.file(map, res.code, {src: true})
+            .pipe($.rename(lib))
+            .pipe($.sourcemaps.init({loadMaps: true}))
+            .pipe($.babel({blacklist: ['useStrict']}))
+            .pipe($.sourcemaps.write('./', {addComment: false, sourceRoot: './'}))
             .pipe(gulp.dest(dist))
             .pipe($.filter(['*', '!**/*.js.map']))
             .pipe($.rename(path.basename(lib, '.js') + '.min.js'))
-            .pipe($.sourcemaps.init({loadMaps: true}))
+            .pipe($.sourcemaps.init({loadMaps: true, sourceRoot: './'}))
             .pipe($.uglify())
             .pipe($.sourcemaps.write('./'))
             .pipe(gulp.dest(dist))
-            .on('end', done);
+            .on('end', function() {
+                del(map, done);
+            });
     })
     .catch(done);
 });
 
 // Test
 
-gulp.task('test', ['build'], function(done) {
-    karma.start({
-        configFile: path.join(__dirname, '/test/karma.conf.js'),
-        singleRun: true
+const karmaConf = path.join(__dirname, '/test/karma.conf.js');
+
+gulp.task('test', ['lint', 'build'], function(done) {
+    karma.server.start({
+        configFile: karmaConf,
+        singleRun: true,
+        autoWatch: false
     }, done);
+});
+
+gulp.task('watch', ['build'], function() {
+    karma.server.start({
+        configFile: karmaConf,
+        singleRun: false,
+        autoWatch: true,
+        autoWatchBatchDelay: 500
+    });
+
+    gulp.watch(js, ['build']);
 });

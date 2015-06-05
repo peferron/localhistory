@@ -7,7 +7,6 @@ module.exports = function(config) {
             'dist/playbyplay.js',
             'test/tests/**/*.js'
         ],
-        autoWatch: true,
         frameworks: ['chai', 'mocha'],
         reporters: ['progress', 'coverage'],
         browsers: ['PhantomJS'],

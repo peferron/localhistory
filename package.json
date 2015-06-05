@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "LocalStorage history for language playgrounds.",
   "scripts": {
+    "build": "gulp clean build",
     "test": "gulp test",
-    "build": "gulp build"
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
