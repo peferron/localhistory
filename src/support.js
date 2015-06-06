@@ -1,5 +1,3 @@
-// Required features
-
 const supportsLocalStorage = (() => {
     const key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
     const value = Math.random() + '';
@@ -14,29 +12,25 @@ const supportsLocalStorage = (() => {
     }
 })();
 
-const supportsJSON = typeof JSON === 'object';
-
-const supportsIsArray = 'isArray' in Array;
-
 export function required() {
     if (!supportsLocalStorage) {
         throw new Error('localStorage is not supported');
     }
 
-    if (!supportsJSON) {
+    if (typeof JSON !== 'object') {
         throw new Error('JSON is not supported');
     }
 
-    if (!supportsIsArray) {
+    if (!('isArray' in Array)) {
         throw new Error('Array.isArray is not supported');
     }
 }
 
-// Optional features
-
 export const promise = typeof Promise === 'function';
 
-// Cannot directly write `export const console = ...` because it would redefine `console` in the
-// current scope.
-const supportsConsole = typeof console === 'object';
-export {supportsConsole as console};
+export function consoleWarn() {
+    try {
+        console.warn.apply(console, arguments); // eslint-disable-line no-console
+    } catch (e) { // eslint-disable-line no-empty
+    }
+}

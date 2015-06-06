@@ -1,6 +1,3 @@
-/* eslint-env jquery */
-/* global playbyplay */
-
 $(function() {
     function getOutput(input) {
         var output = 0;

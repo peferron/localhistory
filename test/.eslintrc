@@ -1,17 +1,13 @@
 {
-  "parser": "babel-eslint",
-  "rules": {
-    "strict": 0,
-    "quotes": 0,
-    "no-unused-expressions": false
-  },
-  "env": {
-    "node": true,
-    "browser": true,
-    "mocha": true
-  },
-  "globals": {
-    "expect": true,
-    "playbyplay": true
-  }
+    "env": {
+        "mocha": true,
+        "node": true
+    },
+    "globals": {
+        "expect": true,
+        "playbyplay": true
+    },
+    "rules": {
+        "no-unused-expressions": 0
+    }
 }

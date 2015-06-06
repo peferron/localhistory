@@ -1,0 +1,12 @@
+{
+    "env": {
+        "jquery": true
+    },
+    "globals": {
+        "playbyplay": true
+    },
+    "rules": {
+        "no-var": 0,
+        "vars-on-top": 0
+    }
+}

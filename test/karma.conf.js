@@ -1,5 +1,3 @@
-// jscs:disable requirePaddingNewLinesAfterBlocks
-
 module.exports = function(config) {
     config.set({
         basePath: '../',
