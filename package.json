@@ -6,6 +6,7 @@
     "build": "gulp clean build",
     "test": "gulp test",
     "watch": "gulp watch",
+    "lint": "gulp lint",
     "release": "gulp release"
   },
   "repository": {
