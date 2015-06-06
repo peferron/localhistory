@@ -18,6 +18,10 @@ export function save(run) {
     try {
         runs = load();
     } catch (err) {
+        if (support.console) {
+            console.error('playbyplay: could not load previous runs, resetting history', err);
+        }
+
         runs = [];
     }
 

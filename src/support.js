@@ -34,3 +34,8 @@ export function check() {
         throw new Error('Array.isArray is not supported');
     }
 }
+
+// Cannot directly write `export const console = ...` because it would redefine `console` in the
+// current scope.
+const supportsConsole = 'console' in window && 'log' in console && 'error' in console;
+export {supportsConsole as console};
