@@ -105,12 +105,6 @@ Install dependencies:
 $ npm install
 ```
 
-Build `dist` directory:
-
-```shell
-$ npm run build
-```
-
 Run tests:
 
 ```shell
