@@ -1,10 +1,10 @@
-import support from './support';
+import * as support from './support';
 import * as storage from './storage';
 
 export function save(run, callback) {
     setTimeout(() => {
         try {
-            support();
+            support.check();
             storage.save(run);
             callback(null);
         } catch (err) {
@@ -15,7 +15,7 @@ export function save(run, callback) {
 
 export function load(callback) {
     try {
-        support();
+        support.check();
         const runs = storage.load();
         callback(null, runs);
     } catch (err) {
@@ -25,7 +25,7 @@ export function load(callback) {
 
 export function clear(callback) {
     try {
-        support();
+        support.check();
         storage.clear();
         callback(null);
     } catch (err) {

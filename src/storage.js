@@ -1,3 +1,5 @@
+import * as support from './support';
+
 const runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
 
 // Max history size in bytes.

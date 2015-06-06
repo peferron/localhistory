@@ -21,7 +21,7 @@ const supportsJSON = typeof window !== 'undefined' &&
 
 const supportsIsArray = 'isArray' in Array;
 
-export default function check() {
+export function check() {
     if (!supportsLocalStorage) {
         throw new Error('localStorage is not supported');
     }
