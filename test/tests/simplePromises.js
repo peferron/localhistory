@@ -32,4 +32,6 @@ describe('after clearing', () => {
             );
         });
     });
+
+    after(playbyplay.clear);
 });
