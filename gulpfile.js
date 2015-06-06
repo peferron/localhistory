@@ -9,12 +9,13 @@ const mkdirp = require('mkdirp');
 const esperanto = require('esperanto');
 const karma = require('karma');
 
-const js = ['src/**/*.js', 'test/tests/**/*.js', '*.js', 'test/*.js'];
+const watchJs = ['src/**/*.js', 'test/tests/**/*.js'];
+const lintJs = watchJs.concat(['gulpfile.js', 'test/karma.conf.js', 'demo/index.js']);
 
 // Lint
 
 gulp.task('lint', function() {
-    return gulp.src(js)
+    return gulp.src(lintJs)
         .pipe($.eslint())
         .pipe($.eslint.format())
         .pipe($.eslint.failOnError())
@@ -88,7 +89,7 @@ gulp.task('watch', ['build'], function() {
         autoWatchBatchDelay: 500
     });
 
-    gulp.watch(js, ['build']);
+    gulp.watch(watchJs, ['build']);
 });
 
 // Release

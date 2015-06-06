@@ -3,27 +3,51 @@
 })(this, function (exports) {
     'use strict';
 
+    var support = Object.defineProperties({}, {
+        required: {
+            get: function () {
+                return required;
+            },
+            configurable: true,
+            enumerable: true
+        },
+        promise: {
+            get: function () {
+                return promise;
+            },
+            configurable: true,
+            enumerable: true
+        },
+        console: {
+            get: function () {
+                return supportsConsole;
+            },
+            configurable: true,
+            enumerable: true
+        }
+    });
+
+    // Required features
+
     var supportsLocalStorage = (function () {
         var key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
         var value = Math.random() + '';
 
         try {
             localStorage[key] = value;
-            if (localStorage[key] !== value) {
-                return false;
-            }
+            var success = localStorage[key] === value;
+            localStorage.removeItem(key);
+            return success;
         } catch (e) {
             return false;
         }
-
-        return true;
     })();
 
-    var supportsJSON = typeof window !== 'undefined' && 'JSON' in window && 'parse' in JSON && 'stringify' in JSON;
+    var supportsJSON = typeof JSON === 'object';
 
     var supportsIsArray = ('isArray' in Array);
 
-    function check() {
+    function required() {
         if (!supportsLocalStorage) {
             throw new Error('localStorage is not supported');
         }
@@ -36,6 +60,14 @@
             throw new Error('Array.isArray is not supported');
         }
     }
+
+    // Optional features
+
+    var promise = typeof Promise === 'function';
+
+    // Cannot directly write `export const console = ...` because it would redefine `console` in the
+    // current scope.
+    var supportsConsole = typeof console === 'object';
 
     var storage = Object.defineProperties({}, {
         save: {
@@ -63,14 +95,9 @@
 
     var runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
 
-    // Max history size in bytes.
-    var maxBytes = 50000;
-
-    // Max length of the history string. Assumes 16 bits per character.
-    var maxLength = maxBytes * 8 / 16;
-
-    // Max runs in history.
-    var maxRuns = 200;
+    var maxBytes = 50000; // Max history size in bytes.
+    var maxLength = maxBytes * 8 / 16; // Max history string length. Assumes 16 bits per code point.
+    var maxRuns = 200; // Max runs in history.
 
     // Save
 
@@ -79,6 +106,10 @@
         try {
             runs = storage__load();
         } catch (err) {
+            if (support.console) {
+                console.error('playbyplay: could not load previous runs, resetting history', err);
+            }
+
             runs = [];
         }
 
@@ -161,34 +192,72 @@
     }
 
     function index__save(run, callback) {
-        setTimeout(function () {
-            try {
-                check();
-                storage.save(run);
-                callback(null);
-            } catch (err) {
-                callback(err);
-            }
-        }, 0);
+        return promisify(function () {
+            support.required();
+            storage.save(run);
+        }, callback, setTimeout);
     }
 
     function index__load(callback) {
-        try {
-            check();
-            var runs = storage.load();
-            callback(null, runs);
-        } catch (err) {
-            callback(err);
-        }
+        return promisify(function () {
+            support.required();
+            return storage.load();
+        }, callback);
     }
 
     function index__clear(callback) {
-        try {
-            check();
+        return promisify(function () {
+            support.required();
             storage.clear();
-            callback(null);
-        } catch (err) {
-            callback(err);
+        }, callback);
+    }
+
+    // Optional promises
+
+    var now = function now(fn) {
+        return fn();
+    };
+
+    function promisify(syncFn, callback) {
+        var asyncFn = arguments[2] === undefined ? now : arguments[2];
+
+        if (!support.promise) {
+            asyncFn(function () {
+                exec(syncFn, callback);
+            });
+
+            return;
+        }
+
+        return new Promise(function (resolve, reject) {
+            // eslint-disable-line consistent-return
+            asyncFn(function () {
+                exec(syncFn, function (err, result) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+
+                    if (callback) {
+                        callback(err, result);
+                    }
+                });
+            });
+        });
+    }
+
+    function exec(fn, callback) {
+        var err = null;
+        var result = undefined;
+        try {
+            result = fn();
+        } catch (e) {
+            err = e;
+        }
+
+        if (callback) {
+            callback(err, result);
         }
     }
 
