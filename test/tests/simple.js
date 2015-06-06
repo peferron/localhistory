@@ -12,7 +12,7 @@ describe('after clearing', () => {
     });
 
     describe('and saving a first run', () => {
-        const firstRun = {input: 'first', output: '1'};
+        const firstRun = {first: '1'};
 
         beforeEach((done) => {
             playbyplay.save(firstRun, done);
@@ -27,7 +27,7 @@ describe('after clearing', () => {
         });
 
         describe('and saving a second run different from the first', () => {
-            const secondRun = {input: 'second', output: '2'};
+            const secondRun = {second: '2'};
 
             beforeEach((done) => {
                 playbyplay.save(secondRun, done);
