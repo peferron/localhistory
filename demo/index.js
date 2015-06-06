@@ -1,4 +1,12 @@
 $(function() {
+    function getOutput(input) {
+        var output = 0;
+        for (var i = 0; i < input.length; i++) {
+            output += input.charCodeAt(i);
+        }
+        return output;
+    }
+
     $('#run').on('click', function() {
         var input = $('#input').val();
         var output = getOutput(input);
@@ -21,21 +29,13 @@ $(function() {
             return $('<tr></tr>').append($input, $output);
         });
 
-        var $history = $('<table></table>').append($header, $runs);
+        var $table = $('<table></table>').append($header, $runs);
 
-        $('#history').html($history);
+        $('#history').html($table);
     });
 
     $('#clear').on('click', function() {
         playbyplay.clear();
         $('#history').html('');
     });
-
-    function getOutput(input) {
-        var output = 0;
-        for (var i = 0; i < input.length; i++) {
-            output += input.charCodeAt(i);
-        }
-        return output;
-    }
 });

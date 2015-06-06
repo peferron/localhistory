@@ -6,7 +6,7 @@ This is the barebones library, suitable if you want to implement your own UI fro
 
 # Demo
 
-TODO
+A [very simple demo](https://cdn.rawgit.com/peferron/playbyplay-core/master/demo/index.html) is available in the `demo` directory.
 
 # Installation
 
