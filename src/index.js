@@ -1,7 +1,35 @@
 import * as support from './support';
 import * as storage from './storage';
 
-function runWithCallback(fn, callback) {
+const now = fn => fn();
+
+function promisify(syncFn, callback, asyncFn = now) {
+    if (!support.promise) {
+        asyncFn(() => {
+            exec(syncFn, callback);
+        });
+
+        return;
+    }
+
+    return new Promise((resolve, reject) => { // eslint-disable-line consistent-return
+        asyncFn(() => {
+            exec(syncFn, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+
+                if (callback) {
+                    callback(err, result);
+                }
+            });
+        });
+    });
+}
+
+function exec(fn, callback) {
     let err = null;
     let result;
     try {
@@ -15,28 +43,22 @@ function runWithCallback(fn, callback) {
     }
 }
 
-function saveNow(run, callback) {
-    runWithCallback(() => {
+export function save(run, callback) {
+    return promisify(() => {
         support.check();
         storage.save(run);
-    }, callback);
-}
-
-export function save(run, callback) {
-    setTimeout(() => {
-        saveNow(run, callback);
-    }, 0);
+    }, callback, setTimeout);
 }
 
 export function load(callback) {
-    runWithCallback(() => {
+    return promisify(() => {
         support.check();
         return storage.load();
     }, callback);
 }
 
 export function clear(callback) {
-    runWithCallback(() => {
+    return promisify(() => {
         support.check();
         storage.clear();
     }, callback);

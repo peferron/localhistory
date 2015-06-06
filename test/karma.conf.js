@@ -8,7 +8,7 @@ module.exports = function(config) {
             'dist_dev/playbyplay.js',
             'test/tests/**/*.js'
         ],
-        frameworks: ['chai', 'mocha'],
+        frameworks: ['mocha', 'chai-as-promised', 'chai'],
         reporters: ['progress', 'coverage'],
         browsers: ['PhantomJS'],
         preprocessors: {

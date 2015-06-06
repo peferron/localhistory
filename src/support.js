@@ -39,3 +39,5 @@ export function check() {
 // current scope.
 const supportsConsole = 'console' in window && 'log' in console && 'error' in console;
 export {supportsConsole as console};
+
+export const promise = 'Promise' in window && typeof Promise === 'function';
