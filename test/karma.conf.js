@@ -4,6 +4,7 @@ module.exports = function(config) {
     config.set({
         basePath: '../',
         files: [
+            'node_modules/babel-core/browser-polyfill.js',
             'dist_dev/playbyplay.js',
             'test/tests/**/*.js'
         ],
@@ -16,7 +17,8 @@ module.exports = function(config) {
         },
         babelPreprocessor: {
             options: {
-                sourceMap: 'inline'
+                sourceMap: 'inline',
+                optional: ['es7.asyncFunctions']
             },
             filename: function(file) {
                 return file.originalPath.replace(/\.js$/, '.es5.js');
