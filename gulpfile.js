@@ -23,13 +23,13 @@ gulp.task('lint', function() {
 
 // Build
 
-const dist = 'dist';
+const dev = 'dist_dev';
 const index = 'index.js';
 const lib = 'playbyplay.js';
 const exportedName = 'playbyplay';
 
 gulp.task('clean', function(done) {
-    del([dist, 'test/coverage'], done);
+    del([dev, 'test/coverage'], done);
 });
 
 gulp.task('build', function(done) {
@@ -45,8 +45,8 @@ gulp.task('build', function(done) {
             name: exportedName
         });
 
-        mkdirp.sync(dist);
-        const map = path.join(dist, 'map.json');
+        mkdirp.sync(dev);
+        const map = path.join(dev, 'map.json');
         fs.writeFileSync(map, res.map.toString());
 
         $.file(map, res.code, {src: true})
@@ -54,13 +54,13 @@ gulp.task('build', function(done) {
             .pipe($.sourcemaps.init({loadMaps: true}))
             .pipe($.babel({blacklist: ['useStrict']}))
             .pipe($.sourcemaps.write('./', {addComment: false, sourceRoot: './'}))
-            .pipe(gulp.dest(dist))
+            .pipe(gulp.dest(dev))
             .pipe($.filter(['*', '!**/*.js.map']))
             .pipe($.rename(path.basename(lib, '.js') + '.min.js'))
             .pipe($.sourcemaps.init({loadMaps: true, sourceRoot: './'}))
             .pipe($.uglify())
             .pipe($.sourcemaps.write('./'))
-            .pipe(gulp.dest(dist))
+            .pipe(gulp.dest(dev))
             .on('end', function() {
                 del(map, done);
             });
