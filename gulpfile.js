@@ -92,11 +92,11 @@ gulp.task('watch', ['build'], function() {
     gulp.watch(watchJs, ['build']);
 });
 
-// Release
+// Dist
 
 const dist = 'dist';
 
-gulp.task('release', ['test'], function() {
+gulp.task('dist', ['test'], function() {
     gulp.src(path.join(dev, '/**/*'))
         .pipe(gulp.dest(dist));
 });
