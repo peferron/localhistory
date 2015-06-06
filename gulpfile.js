@@ -90,3 +90,12 @@ gulp.task('watch', ['build'], function() {
 
     gulp.watch(js, ['build']);
 });
+
+// Release
+
+const dist = 'dist';
+
+gulp.task('release', ['test'], function() {
+    gulp.src(path.join(dev, '/**/*'))
+        .pipe(gulp.dest(dist));
+});
