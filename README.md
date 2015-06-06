@@ -32,7 +32,7 @@ Saves a run to history.
 
 ##### Returns
 
-A`Promise` that can be used instead of the callback, if [your browser supports it](http://caniuse.com/#feat=promises).
+A [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that can be used instead of the callback, if [your browser supports it](http://caniuse.com/#feat=promises).
 
 ##### Example
 
@@ -53,7 +53,7 @@ Loads runs previously saved to history.
 
 ##### Returns
 
-A`Promise` that can be used instead of the callback., if [your browser supports it](http://caniuse.com/#feat=promises).
+A `Promise` that can be used instead of the callback, if your browser supports it.
 
 ##### Example with callback
 
@@ -94,7 +94,7 @@ Clears history, removing all saved runs.
 
 ##### Returns
 
-A`Promise` that can be used instead of the callback, if [your browser supports it](http://caniuse.com/#feat=promises).
+A `Promise` that can be used instead of the callback, if your browser supports it.
 
 ##### Example
 
