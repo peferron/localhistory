@@ -1,6 +1,31 @@
 import * as support from './support';
 import * as storage from './storage';
 
+// Exports
+
+export function save(run, callback) {
+    return promisify(() => {
+        support.required();
+        storage.save(run);
+    }, callback, setTimeout);
+}
+
+export function load(callback) {
+    return promisify(() => {
+        support.required();
+        return storage.load();
+    }, callback);
+}
+
+export function clear(callback) {
+    return promisify(() => {
+        support.required();
+        storage.clear();
+    }, callback);
+}
+
+// Optional promises
+
 const now = fn => fn();
 
 function promisify(syncFn, callback, asyncFn = now) {
@@ -41,25 +66,4 @@ function exec(fn, callback) {
     if (callback) {
         callback(err, result);
     }
-}
-
-export function save(run, callback) {
-    return promisify(() => {
-        support.required();
-        storage.save(run);
-    }, callback, setTimeout);
-}
-
-export function load(callback) {
-    return promisify(() => {
-        support.required();
-        return storage.load();
-    }, callback);
-}
-
-export function clear(callback) {
-    return promisify(() => {
-        support.required();
-        storage.clear();
-    }, callback);
 }

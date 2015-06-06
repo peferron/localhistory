@@ -1,3 +1,5 @@
+// Required features
+
 const supportsLocalStorage = (() => {
     const key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
     const value = Math.random() + '';
@@ -30,9 +32,11 @@ export function required() {
     }
 }
 
+// Optional features
+
+export const promise = typeof Promise === 'function';
+
 // Cannot directly write `export const console = ...` because it would redefine `console` in the
 // current scope.
 const supportsConsole = typeof console === 'object';
 export {supportsConsole as console};
-
-export const promise = typeof Promise === 'function';

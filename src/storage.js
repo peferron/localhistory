@@ -2,14 +2,9 @@ import * as support from './support';
 
 const runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
 
-// Max history size in bytes.
-const maxBytes = 50000;
-
-// Max length of the history string. Assumes 16 bits per character.
-const maxLength = maxBytes * 8 / 16;
-
-// Max runs in history.
-const maxRuns = 200;
+const maxBytes = 50000; // Max history size in bytes.
+const maxLength = maxBytes * 8 / 16; // Max history string length. Assumes 16 bits per code point.
+const maxRuns = 200; // Max runs in history.
 
 // Save
 
