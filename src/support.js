@@ -4,9 +4,9 @@ const supportsLocalStorage = (() => {
 
     try {
         localStorage[key] = value;
-        if (localStorage[key] !== value) {
-            return false;
-        }
+        const success = localStorage[key] === value;
+        localStorage.removeItem(key);
+        return success;
     } catch (e) {
         return false;
     }
