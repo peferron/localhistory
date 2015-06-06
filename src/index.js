@@ -45,21 +45,21 @@ function exec(fn, callback) {
 
 export function save(run, callback) {
     return promisify(() => {
-        support.check();
+        support.required();
         storage.save(run);
     }, callback, setTimeout);
 }
 
 export function load(callback) {
     return promisify(() => {
-        support.check();
+        support.required();
         return storage.load();
     }, callback);
 }
 
 export function clear(callback) {
     return promisify(() => {
-        support.check();
+        support.required();
         storage.clear();
     }, callback);
 }

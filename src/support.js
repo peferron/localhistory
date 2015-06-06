@@ -10,18 +10,13 @@ const supportsLocalStorage = (() => {
     } catch (e) {
         return false;
     }
-
-    return true;
 })();
 
-const supportsJSON = typeof window !== 'undefined' &&
-    'JSON' in window &&
-    'parse' in JSON &&
-    'stringify' in JSON;
+const supportsJSON = typeof JSON === 'object';
 
 const supportsIsArray = 'isArray' in Array;
 
-export function check() {
+export function required() {
     if (!supportsLocalStorage) {
         throw new Error('localStorage is not supported');
     }
@@ -37,7 +32,7 @@ export function check() {
 
 // Cannot directly write `export const console = ...` because it would redefine `console` in the
 // current scope.
-const supportsConsole = 'console' in window && 'log' in console && 'error' in console;
+const supportsConsole = typeof console === 'object';
 export {supportsConsole as console};
 
-export const promise = 'Promise' in window && typeof Promise === 'function';
+export const promise = typeof Promise === 'function';
