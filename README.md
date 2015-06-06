@@ -1,8 +1,13 @@
 # playbyplay-core
 
-LocalStorage history for language playgrounds.
+Playbyplay is a history library for language playgrounds, with a focus on being a good citizen:
 
-This is the barebones library, suitable if you want to implement your own UI from scratch. If you would rather use a prebuilt UI, check out [playbyplay-ui](https://github.com/peferron/playbyplay-ui).
+* Prevents all localStorage exceptions from reaching your code.
+* Trims down history to avoid saturating localStorage.
+* ~1k minified & gzipped.
+* No dependencies.
+
+This repo hosts the core Playbyplay library, suitable if you want to implement your own UI from scratch. If you would rather start from a prebuilt UI, check out [playbyplay-ui](https://github.com/peferron/playbyplay-ui).
 
 A [very simple demo](https://cdn.rawgit.com/peferron/playbyplay-core/master/demo/index.html) is available in the `demo` directory.
 
