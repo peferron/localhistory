@@ -1,47 +1,43 @@
 import * as support from './support';
 import * as storage from './storage';
 
+function runWithCallback(fn, callback) {
+    let err = null;
+    let result;
+    try {
+        result = fn();
+    } catch (e) {
+        err = e;
+    }
+
+    if (callback) {
+        callback(err, result);
+    }
+}
+
+function saveNow(run, callback) {
+    runWithCallback(() => {
+        support.check();
+        storage.save(run);
+    }, callback);
+}
+
 export function save(run, callback) {
     setTimeout(() => {
-        let err = null;
-        try {
-            support.check();
-            storage.save(run);
-        } catch (e) {
-            err = e;
-        }
-
-        if (callback) {
-            callback(err);
-        }
+        saveNow(run, callback);
     }, 0);
 }
 
 export function load(callback) {
-    let err = null;
-    let runs;
-    try {
+    runWithCallback(() => {
         support.check();
-        runs = storage.load();
-    } catch (e) {
-        err = e;
-    }
-
-    if (callback) {
-        callback(err, runs);
-    }
+        return storage.load();
+    }, callback);
 }
 
 export function clear(callback) {
-    let err = null;
-    try {
+    runWithCallback(() => {
         support.check();
         storage.clear();
-    } catch (e) {
-        err = e;
-    }
-
-    if (callback) {
-        callback(err);
-    }
+    }, callback);
 }
