@@ -4,8 +4,6 @@ LocalStorage history for language playgrounds.
 
 This is the barebones library, suitable if you want to implement your own UI from scratch. If you would rather use a prebuilt UI, check out [playbyplay-ui](https://github.com/peferron/playbyplay-ui).
 
-# Demo
-
 A [very simple demo](https://cdn.rawgit.com/peferron/playbyplay-core/master/demo/index.html) is available in the `demo` directory.
 
 # Installation
