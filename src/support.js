@@ -1,4 +1,4 @@
-// Required features
+// Required features.
 
 const supportsLocalStorage = (() => {
     const key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
@@ -14,10 +14,7 @@ const supportsLocalStorage = (() => {
     }
 })();
 
-const supportsJSON = typeof JSON === 'object';
-const supportsIsArray = 'isArray' in Array;
-
-export const supported = supportsLocalStorage && supportsJSON && supportsIsArray;
+export const supported = supportsLocalStorage && typeof JSON === 'object' && 'isArray' in Array;
 
 export function throwIfUnsupported() {
     if (!supported) {
@@ -25,7 +22,7 @@ export function throwIfUnsupported() {
     }
 }
 
-// Optional features
+// Optional features.
 
 export const promise = typeof Promise === 'function';
 

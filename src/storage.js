@@ -6,8 +6,6 @@ const maxBytes = 50000; // Max history size in bytes.
 const maxLength = maxBytes * 8 / 16; // Max history string length. Assumes 16 bits per code point.
 const maxRuns = 200; // Max runs in history.
 
-// Save
-
 export function save(run) {
     let runs;
     try {
@@ -76,8 +74,6 @@ function isQuotaError(err) {
          err.code === 1014 && err.name === 'NS_ERROR_DOM_QUOTA_REACHED');
 }
 
-// Load
-
 export function load() {
     const runsStr = localStorage[runsKey];
     if (!runsStr) {
@@ -91,8 +87,6 @@ export function load() {
 
     return runs;
 }
-
-// Clear
 
 export function clear() {
     localStorage.removeItem(runsKey);
