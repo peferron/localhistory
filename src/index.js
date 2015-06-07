@@ -4,11 +4,24 @@ import promisify from './promisify';
 
 export const supported = support.supported;
 
-export function save(run, callback) {
+export function save(run, options, callback) {
+    const cb = typeof options === 'function' ? options : callback;
+    const opts = fillSaveOptions(typeof options === 'object' ? options : {});
+
     return promisify(() => {
         support.throwIfUnsupported();
-        storage.save(run);
-    }, callback, setTimeout);
+        storage.save(run, opts);
+    }, cb, setTimeout);
+}
+
+function fillSaveOptions(options) {
+    if (isNaN(options.maxBytes)) {
+        options.maxBytes = 50000;
+    }
+    if (isNaN(options.maxRuns)) {
+        options.maxRuns = 200;
+    }
+    return options;
 }
 
 export function load(callback) {

@@ -2,11 +2,7 @@ import * as support from './support';
 
 const runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
 
-const maxBytes = 50000; // Max history size in bytes.
-const maxLength = maxBytes * 8 / 16; // Max history string length. Assumes 16 bits per code point.
-const maxRuns = 200; // Max runs in history.
-
-export function save(run) {
+export function save(run, options) {
     let runs;
     try {
         runs = load();
@@ -20,17 +16,20 @@ export function save(run) {
     }
 
     runs.push(run);
-    saveRuns(runs);
+    saveRuns(runs, options);
 }
 
 function sameRun(a, b) {
     return JSON.stringify(a) === JSON.stringify(b);
 }
 
-function saveRuns(runs) {
-    if (runs.length > maxRuns) {
-        runs.splice(0, runs.length - maxRuns);
+function saveRuns(runs, options) {
+    if (runs.length > options.maxRuns) {
+        runs.splice(0, runs.length - options.maxRuns);
     }
+
+    // Max history string length. Assumes 16 bits per code point.
+    const maxLength = options.maxBytes * 8 / 16;
 
     while (true) { // eslint-disable-line no-constant-condition
         let runsStr = JSON.stringify(runs);
