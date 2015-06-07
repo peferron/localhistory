@@ -3,23 +3,25 @@ import * as storage from './storage';
 
 // Exports
 
+export const supported = support.supported;
+
 export function save(run, callback) {
     return promisify(() => {
-        support.required();
+        support.throwIfUnsupported();
         storage.save(run);
     }, callback, setTimeout);
 }
 
 export function load(callback) {
     return promisify(() => {
-        support.required();
+        support.throwIfUnsupported();
         return storage.load();
     }, callback);
 }
 
 export function clear(callback) {
     return promisify(() => {
-        support.required();
+        support.throwIfUnsupported();
         storage.clear();
     }, callback);
 }
@@ -67,3 +69,4 @@ function exec(fn, callback) {
         callback(err, result);
     }
 }
+

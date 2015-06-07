@@ -1,3 +1,5 @@
+// Required features
+
 const supportsLocalStorage = (() => {
     const key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
     const value = Math.random() + '';
@@ -12,19 +14,18 @@ const supportsLocalStorage = (() => {
     }
 })();
 
-export function required() {
-    if (!supportsLocalStorage) {
-        throw new Error('localStorage is not supported');
-    }
+const supportsJSON = typeof JSON === 'object';
+const supportsIsArray = 'isArray' in Array;
 
-    if (typeof JSON !== 'object') {
-        throw new Error('JSON is not supported');
-    }
+export const supported = supportsLocalStorage && supportsJSON && supportsIsArray;
 
-    if (!('isArray' in Array)) {
-        throw new Error('Array.isArray is not supported');
+export function throwIfUnsupported() {
+    if (!supported) {
+        throw new Error('This browser does not support playbyplay');
     }
 }
+
+// Optional features
 
 export const promise = typeof Promise === 'function';
 
