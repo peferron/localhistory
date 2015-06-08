@@ -4,9 +4,16 @@
     'use strict';
 
     var support = Object.defineProperties({}, {
-        required: {
+        supported: {
             get: function () {
-                return required;
+                return support__supported;
+            },
+            configurable: true,
+            enumerable: true
+        },
+        throwIfUnsupported: {
+            get: function () {
+                return throwIfUnsupported;
             },
             configurable: true,
             enumerable: true
@@ -18,16 +25,16 @@
             configurable: true,
             enumerable: true
         },
-        console: {
+        consoleWarn: {
             get: function () {
-                return supportsConsole;
+                return consoleWarn;
             },
             configurable: true,
             enumerable: true
         }
     });
 
-    // Required features
+    // Required features.
 
     var supportsLocalStorage = (function () {
         var key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
@@ -43,31 +50,23 @@
         }
     })();
 
-    var supportsJSON = typeof JSON === 'object';
+    var support__supported = supportsLocalStorage && typeof JSON === 'object' && 'isArray' in Array;
 
-    var supportsIsArray = ('isArray' in Array);
-
-    function required() {
-        if (!supportsLocalStorage) {
-            throw new Error('localStorage is not supported');
-        }
-
-        if (!supportsJSON) {
-            throw new Error('JSON is not supported');
-        }
-
-        if (!supportsIsArray) {
-            throw new Error('Array.isArray is not supported');
+    function throwIfUnsupported() {
+        if (!support__supported) {
+            throw new Error('This browser does not support playbyplay');
         }
     }
 
-    // Optional features
+    // Optional features.
 
     var promise = typeof Promise === 'function';
 
-    // Cannot directly write `export const console = ...` because it would redefine `console` in the
-    // current scope.
-    var supportsConsole = typeof console === 'object';
+    function consoleWarn() {
+        try {
+            console.warn.apply(console, arguments); // eslint-disable-line no-console
+        } catch (e) {}
+    }
 
     var storage = Object.defineProperties({}, {
         save: {
@@ -95,21 +94,16 @@
 
     var runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
 
-    var maxBytes = 50000; // Max history size in bytes.
-    var maxLength = maxBytes * 8 / 16; // Max history string length. Assumes 16 bits per code point.
-    var maxRuns = 200; // Max runs in history.
+    function storage__save(run, options) {
+        if (options.maxRuns < 1) {
+            throw new Error('Could not save run, maxRuns is ' + options.maxRuns);
+        }
 
-    // Save
-
-    function storage__save(run) {
         var runs = undefined;
         try {
             runs = storage__load();
         } catch (err) {
-            if (support.console) {
-                console.error('playbyplay: could not load previous runs, resetting history', err);
-            }
-
+            support.consoleWarn('playbyplay: could not load previous runs, resetting history', err);
             runs = [];
         }
 
@@ -118,25 +112,26 @@
         }
 
         runs.push(run);
-        saveRuns(runs);
+        saveRuns(runs, options);
     }
 
     function sameRun(a, b) {
         return JSON.stringify(a) === JSON.stringify(b);
     }
 
-    function saveRuns(runs) {
-        if (runs.length > maxRuns) {
-            runs.splice(0, runs.length - maxRuns);
+    function saveRuns(runs, options) {
+        if (runs.length > options.maxRuns) {
+            runs.splice(0, runs.length - options.maxRuns);
         }
 
         while (true) {
             // eslint-disable-line no-constant-condition
             var runsStr = JSON.stringify(runs);
 
-            if (runsStr.length > maxLength) {
+            var runsBytes = runsStr.length * 2; // Assumes 16 bits (2 bytes) per code point.
+            if (runsBytes > options.maxBytes) {
                 if (runs.length < 2) {
-                    throw new Error('Could not save run of length ' + runsStr.length + ', ' + ('the maximum length is ' + maxLength));
+                    throw new Error('Could not save run of length ' + runsStr.length + ' ' + ('(' + runsBytes + ' bytes), maxBytes is ' + options.maxBytes));
                 }
 
                 removeFirstHalf(runs);
@@ -169,8 +164,6 @@
         return err && (err.code === 22 || err.code === 1014 && err.name === 'NS_ERROR_DOM_QUOTA_REACHED');
     }
 
-    // Load
-
     function storage__load() {
         var runsStr = localStorage[runsKey];
         if (!runsStr) {
@@ -185,38 +178,13 @@
         return runs;
     }
 
-    // Clear
-
     function storage__clear() {
         localStorage.removeItem(runsKey);
     }
 
-    function index__save(run, callback) {
-        return promisify(function () {
-            support.required();
-            storage.save(run);
-        }, callback, setTimeout);
+    function now(fn) {
+        fn();
     }
-
-    function index__load(callback) {
-        return promisify(function () {
-            support.required();
-            return storage.load();
-        }, callback);
-    }
-
-    function index__clear(callback) {
-        return promisify(function () {
-            support.required();
-            storage.clear();
-        }, callback);
-    }
-
-    // Optional promises
-
-    var now = function now(fn) {
-        return fn();
-    };
 
     function promisify(syncFn, callback) {
         var asyncFn = arguments[2] === undefined ? now : arguments[2];
@@ -261,8 +229,46 @@
         }
     }
 
+    var index__supported = support.supported;
+
+    function index__save(run, options, callback) {
+        var cb = typeof options === 'function' ? options : callback;
+        var opts = fillSaveOptions(typeof options === 'object' ? options : {});
+
+        return promisify(function () {
+            support.throwIfUnsupported();
+            storage.save(run, opts);
+        }, cb, setTimeout);
+    }
+
+    function fillSaveOptions(options) {
+        if (isNaN(options.maxRuns)) {
+            options.maxRuns = 100;
+        }
+        if (isNaN(options.maxBytes)) {
+            options.maxBytes = 100000;
+        }
+        return options;
+    }
+
+    function index__load(callback) {
+        return promisify(function () {
+            support.throwIfUnsupported();
+            return storage.load();
+        }, callback);
+    }
+
+    function index__clear(callback) {
+        return promisify(function () {
+            support.throwIfUnsupported();
+            storage.clear();
+        }, callback);
+    }
+
+    exports.supported = index__supported;
     exports.save = index__save;
     exports.load = index__load;
     exports.clear = index__clear;
 });
 //# sourceMappingURL=./playbyplay.js.map
+// eslint-disable-line no-empty
