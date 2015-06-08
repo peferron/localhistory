@@ -3,6 +3,10 @@ import * as support from './support';
 const runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
 
 export function save(run, options) {
+    if (options.maxRuns < 1) {
+        throw new Error(`Could not save run, maxRuns is ${options.maxRuns}`);
+    }
+
     let runs;
     try {
         runs = load();
@@ -28,16 +32,14 @@ function saveRuns(runs, options) {
         runs.splice(0, runs.length - options.maxRuns);
     }
 
-    // Max history string length. Assumes 16 bits per code point.
-    const maxLength = options.maxBytes * 8 / 16;
-
     while (true) { // eslint-disable-line no-constant-condition
-        let runsStr = JSON.stringify(runs);
+        const runsStr = JSON.stringify(runs);
 
-        if (runsStr.length > maxLength) {
+        const runsBytes = runsStr.length * 2; // Assumes 16 bits (2 bytes) per code point.
+        if (runsBytes > options.maxBytes) {
             if (runs.length < 2) {
-                throw new Error(`Could not save run of length ${runsStr.length}, ` +
-                    `maxBytes is ${options.maxBytes}`);
+                throw new Error(`Could not save run of length ${runsStr.length} ` +
+                    `(${runsBytes} bytes), maxBytes is ${options.maxBytes}`);
             }
 
             removeFirstHalf(runs);
