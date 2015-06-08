@@ -3,7 +3,7 @@ describe('after clearing', () => {
         playbyplay.clear(done);
     });
 
-    it('should load an empty array', (done) => {
+    it('should load an empty array', done => {
         playbyplay.load((err, runs) => {
             expect(err).to.be.null;
             expect(runs).to.deep.equal([]);
@@ -18,7 +18,7 @@ describe('after clearing', () => {
             playbyplay.save(firstRun, done);
         });
 
-        it('should load the first run', (done) => {
+        it('should load the first run', done => {
             playbyplay.load((err, runs) => {
                 expect(err).to.be.null;
                 expect(runs).to.deep.equal([firstRun]);
@@ -33,7 +33,7 @@ describe('after clearing', () => {
                 playbyplay.save(secondRun, done);
             });
 
-            it('should load the first and second runs', (done) => {
+            it('should load the first and second runs', done => {
                 playbyplay.load((err, runs) => {
                     expect(err).to.be.null;
                     expect(runs).to.deep.equal([firstRun, secondRun]);
@@ -47,7 +47,7 @@ describe('after clearing', () => {
                 playbyplay.save(firstRun, done);
             });
 
-            it('should load the first run only once', (done) => {
+            it('should load the first run only once', done => {
                 playbyplay.load((err, runs) => {
                     expect(err).to.be.null;
                     expect(runs).to.deep.equal([firstRun]);
