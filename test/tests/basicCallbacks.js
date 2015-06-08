@@ -1,5 +1,7 @@
 describe('after clearing', () => {
-    beforeEach(playbyplay.clear);
+    beforeEach(done => {
+        playbyplay.clear(done);
+    });
 
     it('should load an empty array', (done) => {
         playbyplay.load((err, runs) => {
@@ -55,5 +57,7 @@ describe('after clearing', () => {
         });
     });
 
-    after(playbyplay.clear);
+    after(done => {
+        playbyplay.clear(done);
+    });
 });
