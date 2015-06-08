@@ -15,11 +15,11 @@ export function save(run, options, callback) {
 }
 
 function fillSaveOptions(options) {
-    if (isNaN(options.maxBytes)) {
-        options.maxBytes = 50000;
-    }
     if (isNaN(options.maxRuns)) {
-        options.maxRuns = 200;
+        options.maxRuns = 100;
+    }
+    if (isNaN(options.maxBytes)) {
+        options.maxBytes = 100000;
     }
     return options;
 }

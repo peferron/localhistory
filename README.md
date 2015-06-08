@@ -28,8 +28,8 @@ Saves a run to history.
 
 * **`run`** is the value to save to history. `run` can be any value [convertible to JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 * **`[options]`** is an optional set of key/value pairs:
-  * **`maxRuns`** is the maximum number of runs the history should keep. Defaults to 200.
-  * **`maxBytes`** is the maximum number of bytes the history should use. Defaults to 50,000.
+  * **`maxRuns`** is the maximum number of runs the history should keep. Defaults to 100.
+  * **`maxBytes`** is the maximum number of bytes the history should use. Defaults to 100,000.
 * **`[callback]`** is an optional callback function, taking one argument:
   * **`err`** is `null` if the run was saved successfully, or an `Error` object if the run was not saved successfully.
 
