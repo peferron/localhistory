@@ -37,7 +37,7 @@ function saveRuns(runs, options) {
         if (runsStr.length > maxLength) {
             if (runs.length < 2) {
                 throw new Error(`Could not save run of length ${runsStr.length}, ` +
-                    `the maximum length is ${maxLength}`);
+                    `maxBytes is ${options.maxBytes}`);
             }
 
             removeFirstHalf(runs);
