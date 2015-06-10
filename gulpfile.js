@@ -42,7 +42,8 @@ gulp.task('build', function(done) {
             sourceMap: true,
             sourceMapSource: index,
             sourceMapFile: lib,
-            name: exportedName
+            name: exportedName,
+            useStrict: false
         });
 
         mkdirp.sync(dev);
