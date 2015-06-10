@@ -18,8 +18,7 @@
         "objectLiteralShorthandProperties": true,
         "spread": true,
         "superInFunctions": true,
-        "templateStrings": true,
-        "jsx": true
+        "templateStrings": true
     },
     "rules": {
         "strict": [2, "never"],
