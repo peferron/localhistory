@@ -16,11 +16,12 @@ describe('after clearing', () => {
         }
         localStorage.removeItem(key);
 
-        halfTooLong1 = tooLong.substring(0, tooLong.length / 2);
 
-        // halfTooLong2, must have the same length as halfTooLong1, and must also be different so
-        // that halfTooLong1 and halfTooLong2 can be saved back-to-back. We append '$' because
-        // it's not present in the initial tooLong seed string.
+        // Splitting tooLong in two creates two strings that are short enough to be saved
+        // successfully, but too long to be *both* contained in history at the same time.
+        // We change an arbitrary character in the second string to make both strings different,
+        // otherwise save() will consider it a duplicate.
+        halfTooLong1 = tooLong.substring(0, tooLong.length / 2);
         halfTooLong2 = halfTooLong1.substring(0, halfTooLong1.length - 1) + '$';
     }
 
