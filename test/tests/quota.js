@@ -17,6 +17,10 @@ describe('after clearing', () => {
         localStorage.removeItem(key);
 
         halfTooLong1 = tooLong.substring(0, tooLong.length / 2);
+
+        // halfTooLong2, must have the same length as halfTooLong1, and must also be different so
+        // that halfTooLong1 and halfTooLong2 can be saved back-to-back. We append '$' because
+        // it's not present in the initial tooLong seed string.
         halfTooLong2 = halfTooLong1.substring(0, halfTooLong1.length - 1) + '$';
     }
 
