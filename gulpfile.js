@@ -25,8 +25,8 @@ gulp.task('lint', function() {
 
 const dev = 'dist_dev';
 const index = 'index.js';
-const lib = 'localhistory.js';
 const exportedName = 'localhistory';
+const lib = exportedName + '.js';
 
 gulp.task('clean', function(done) {
     del([dev, 'test/coverage'], done);
