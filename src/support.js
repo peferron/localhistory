@@ -1,17 +1,22 @@
 // Required features.
 
 const supportsLocalStorage = (() => {
-    const key = 'localhistory_support_Vo8yTd6aLS$A8huo9$e7';
-    const value = Math.random() + '';
+    const key = 'localhistory_support_' + Math.random();
+    const value = '' + Math.random();
+    let success = false;
 
     try {
         localStorage[key] = value;
-        const success = localStorage[key] === value;
+        success = localStorage[key] === value;
+    } catch (e) {}
+
+    try {
         localStorage.removeItem(key);
-        return success;
     } catch (e) {
-        return false;
+        success = false;
     }
+
+    return success;
 })();
 
 export const supported = supportsLocalStorage && typeof JSON === 'object' && 'isArray' in Array;
