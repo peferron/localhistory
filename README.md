@@ -20,7 +20,7 @@ A [very simple demo](https://rawgit.com/peferron/localhistory/master/demo/index.
 
 ## localhistory.append(key, entry, [options], [callback])
 
-Appends a entry to history.
+Appends an entry to history.
 
 ##### Arguments
 
@@ -99,7 +99,7 @@ Clears history, removing all entries.
 
 ##### Arguments
 
-* **`key`** is the string identifier of the history to clear.
+* **`key`** is a string identifying the history to clear.
 * **`[callback]`** is an optional callback function, taking one argument:
   * **`err`** is `null` if the history was cleared successfully, or an `Error` object if the history was not cleared successfully.
 
