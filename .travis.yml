@@ -1,2 +1,2 @@
 language: node_js
-after_script: npm install -g codeclimate-test-reporter && cat test/coverage/**/lcov.info | codeclimate-test-reporter
+after_script: npm install -g coveralls && coveralls < test/coverage/**/lcov.info
