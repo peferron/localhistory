@@ -18,7 +18,7 @@ A [very simple demo](https://cdn.rawgit.com/peferron/localhistory/master/demo/in
 
 # Usage
 
-## localhistory.append(entry, [options], [callback])
+## localhistory.append(key, entry, [options], [callback])
 
 Appends a entry to history.
 
@@ -26,6 +26,7 @@ Appends a entry to history.
 
 ##### Arguments
 
+* **`key`** is the string identifier of the history to append to.
 * **`entry`** is the value to append to history. `entry` can be any value [convertible to JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 * **`[options]`** is an optional set of key/value pairs:
   * **`maxEntries`** is the maximum number of entries the history should keep. Defaults to 100.
@@ -40,23 +41,24 @@ A [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
 ##### Example
 
 ```js
-var entry = {hello: 'World'};
-localhistory.append(entry);
+var entry = {hello: 'world'};
+localhistory.append('myhistory', entry);
 ```
 
 ##### Example with options
 
 ```js
-var entry = {hello: 'World'};
-localhistory.append(entry, {maxEntries: 50});
+var entry = {hello: 'world'}
+localhistory.append('myhistory', entry, {maxEntries: 50});
 ```
 
-## localhistory.load(callback)
+## localhistory.load(key, callback)
 
 Loads all entries previously appended to history.
 
 ##### Arguments
 
+* **`key`** is the string identifier of the history to load.
 * **`callback`** is a callback function, taking two arguments:
   * **`err`** is `null` if the entries were loaded successfully, or an `Error` object if the entries were not loaded successfully.
   * **`entries`** is an `Array` containing the loaded entries, or `undefined` if the entries were not loaded successfully.
@@ -68,7 +70,7 @@ A `Promise` that can be used instead of the callback, if your browser supports i
 ##### Example with callback
 
 ```js
-localhistory.load(function(err, entries) {
+localhistory.load('myhistory', function(err, entries) {
     if (err) {
         console.error('Load failed:', err);
         return;
@@ -80,7 +82,7 @@ localhistory.load(function(err, entries) {
 ##### Example with promise
 
 ```js
-localhistory.load().then(function(entries) {
+localhistory.load('myhistory').then(function(entries) {
     console.log('Load succeeded:', entries);
 }).catch(function(err) {
     console.error('Load failed:', err);
@@ -90,15 +92,16 @@ localhistory.load().then(function(entries) {
 ##### Example for the adventurous
 
 ```js
-const entries = await localhistory.load();
+const entries = await localhistory.load('myhistory');
 ```
 
-## localhistory.clear([callback])
+## localhistory.clear(key, [callback])
 
 Clears history, removing all entries.
 
 ##### Arguments
 
+* **`key`** is the string identifier of the history to clear.
 * **`[callback]`** is an optional callback function, taking one argument:
   * **`err`** is `null` if the history was cleared successfully, or an `Error` object if the history was not cleared successfully.
 
@@ -109,7 +112,7 @@ A `Promise` that can be used instead of the callback, if your browser supports i
 ##### Example
 
 ```js
-localhistory.clear();
+localhistory.clear('myhistory');
 ```
 
 # Contributing

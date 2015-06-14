@@ -4,13 +4,13 @@ import promisify from './promisify';
 
 export const supported = support.supported;
 
-export function append(entry, options, callback) {
+export function append(key, entry, options, callback) {
     const cb = typeof options === 'function' ? options : callback;
     const opts = fillAppendOptions(typeof options === 'object' ? options : {});
 
     return promisify(() => {
         support.throwIfUnsupported();
-        storage.append(entry, opts);
+        storage.append(key, entry, opts);
     }, cb, setTimeout);
 }
 
@@ -24,16 +24,16 @@ function fillAppendOptions(options) {
     return options;
 }
 
-export function load(callback) {
+export function load(key, callback) {
     return promisify(() => {
         support.throwIfUnsupported();
-        return storage.load();
+        return storage.load(key);
     }, callback);
 }
 
-export function clear(callback) {
+export function clear(key, callback) {
     return promisify(() => {
         support.throwIfUnsupported();
-        storage.clear();
+        storage.clear(key);
     }, callback);
 }

@@ -26,27 +26,27 @@ describe('after clearing', () => {
     }
 
     beforeEach(async () => {
-        await localhistory.clear();
+        await localhistory.clear('test');
         if (!tooLong) {
             init();
         }
     });
 
     it('should return a quota error when saving a entry that cannot fit in localStorage', () =>
-        expect(localhistory.append(tooLong, {maxBytes: Infinity})).to.be.rejectedWith(Error,
+        expect(localhistory.append('test', tooLong, {maxBytes: Infinity})).to.be.rejectedWith(Error,
             `Could not append entry of length ${tooLong.length + 4}, exceeds localStorage quota`)
     );
 
     describe('and saving two entries that cannot both fit in localStorage', () => {
         beforeEach(async () => {
-            await localhistory.append(halfTooLong1, {maxBytes: Infinity});
-            await localhistory.append(halfTooLong2, {maxBytes: Infinity});
+            await localhistory.append('test', halfTooLong1, {maxBytes: Infinity});
+            await localhistory.append('test', halfTooLong2, {maxBytes: Infinity});
         });
 
         it('should load the last entry only', () =>
-            expect(localhistory.load()).to.eventually.deep.equal([halfTooLong2])
+            expect(localhistory.load('test')).to.eventually.deep.equal([halfTooLong2])
         );
     });
 
-    afterEach(localhistory.clear);
+    afterEach(() => localhistory.clear('test'));
 });

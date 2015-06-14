@@ -5,7 +5,7 @@ describe('after clearing', () => {
     async function append() {
         const entry = Math.random();
 
-        await localhistory.append(entry, {maxEntries});
+        await localhistory.append('test', entry, {maxEntries});
 
         appendedEntries.push(entry);
         if (appendedEntries.length > maxEntries) {
@@ -14,12 +14,12 @@ describe('after clearing', () => {
     }
 
     async function load() {
-        const entries = await localhistory.load();
+        const entries = await localhistory.load('test');
         expect(entries).to.deep.equal(appendedEntries);
     }
 
     async function clear() {
-        await localhistory.clear();
+        await localhistory.clear('test');
         appendedEntries = [];
     }
 
@@ -47,5 +47,5 @@ describe('after clearing', () => {
         }
     });
 
-    after(localhistory.clear);
+    after(() => localhistory.clear('test'));
 });

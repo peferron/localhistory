@@ -1,15 +1,13 @@
 import * as support from './support';
 
-const entriesKey = 'localhistory_entries_A*O%y21#Q1WSh^f09YO!';
-
-export function append(entry, options) {
+export function append(key, entry, options) {
     if (options.maxEntries < 1) {
         throw new Error(`Could not append entry, maxEntries is ${options.maxEntries}`);
     }
 
     let entries;
     try {
-        entries = load();
+        entries = load(key);
     } catch (err) {
         support.consoleWarn('localhistory: could not load previous entries, resetting history',
             err.message);
@@ -21,14 +19,14 @@ export function append(entry, options) {
     }
 
     entries.push(entry);
-    appendentries(entries, options);
+    appendEntries(key, entries, options);
 }
 
 function sameEntry(a, b) {
     return JSON.stringify(a) === JSON.stringify(b);
 }
 
-function appendentries(entries, options) {
+function appendEntries(key, entries, options) {
     if (entries.length > options.maxEntries) {
         entries.splice(0, entries.length - options.maxEntries);
     }
@@ -48,7 +46,7 @@ function appendentries(entries, options) {
         }
 
         try {
-            localStorage[entriesKey] = entriesStr;
+            localStorage[key] = entriesStr;
             return;
         } catch (err) {
             if (isQuotaError(err)) {
@@ -76,8 +74,8 @@ function isQuotaError(err) {
          err.code === 1014 && err.name === 'NS_ERROR_DOM_QUOTA_REACHED');
 }
 
-export function load() {
-    const entriesStr = localStorage[entriesKey];
+export function load(key) {
+    const entriesStr = localStorage[key];
     if (!entriesStr) {
         return [];
     }
@@ -90,6 +88,6 @@ export function load() {
     return entries;
 }
 
-export function clear() {
-    localStorage.removeItem(entriesKey);
+export function clear(key) {
+    localStorage.removeItem(key);
 }
