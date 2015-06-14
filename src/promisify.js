@@ -1,31 +1,22 @@
 import * as support from './support';
 
-function now(fn) {
-    fn();
-}
-
-export default function promisify(syncFn, callback, asyncFn = now) {
+export default function promisify(fn, callback) {
     if (!support.promise) {
-        asyncFn(() => {
-            exec(syncFn, callback);
-        });
-
+        exec(fn, callback);
         return;
     }
 
     return new Promise((resolve, reject) => { // eslint-disable-line consistent-return
-        asyncFn(() => {
-            exec(syncFn, (err, result) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
+        exec(fn, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
 
-                if (callback) {
-                    callback(err, result);
-                }
-            });
+            if (callback) {
+                callback(err, result);
+            }
         });
     });
 }
