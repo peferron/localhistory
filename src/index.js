@@ -11,7 +11,7 @@ export function append(key, entry, options, callback) {
     return promisify(() => {
         support.throwIfUnsupported();
         storage.append(key, entry, opts);
-    }, cb, setTimeout);
+    }, cb);
 }
 
 function fillAppendOptions(options) {

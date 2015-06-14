@@ -22,8 +22,6 @@ A [very simple demo](https://cdn.rawgit.com/peferron/localhistory/master/demo/in
 
 Appends a entry to history.
 
-`append` is asynchronous and will not block immediate rendering. Feel free to `append` a entry immediately after receiving the output.
-
 ##### Arguments
 
 * **`key`** is the string identifier of the history to append to.
