@@ -46,7 +46,7 @@ localhistory.append('myhistory', entry);
 ##### Example with options
 
 ```js
-var entry = {hello: 'world'}
+var entry = {hello: 'world'};
 localhistory.append('myhistory', entry, {maxEntries: 50});
 ```
 
