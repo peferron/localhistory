@@ -9,7 +9,7 @@
 
 `localhistory` was initially developed for adding history features to language playgrounds. If you are interested in that, check out the [playbyplay repository](https://github.com/peferron/playbyplay).
 
-A [very simple demo](https://cdn.rawgit.com/peferron/localhistory/master/demo/index.html) is available in the `demo` directory.
+A [very simple demo](https://rawgit.com/peferron/localhistory/master/demo/index.html) is available in the `demo` directory.
 
 # Installation
 
