@@ -24,7 +24,7 @@ Appends a entry to history.
 
 ##### Arguments
 
-* **`key`** is the string identifier of the history to append to.
+* **`key`** is a string identifying the history to append to.
 * **`entry`** is the value to append to history. `entry` can be any value [convertible to JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 * **`[options]`** is an optional set of key/value pairs:
   * **`maxEntries`** is the maximum number of entries the history should keep. Defaults to 100.
@@ -56,7 +56,7 @@ Loads all entries previously appended to history.
 
 ##### Arguments
 
-* **`key`** is the string identifier of the history to load.
+* **`key`** is a string identifying the history to load.
 * **`callback`** is a callback function, taking two arguments:
   * **`err`** is `null` if the entries were loaded successfully, or an `Error` object if the entries were not loaded successfully.
   * **`entries`** is an `Array` containing the loaded entries, or `undefined` if the entries were not loaded successfully.
