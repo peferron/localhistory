@@ -53,7 +53,7 @@ localhistory.append(run, {maxRuns: 50});
 
 ## localhistory.load(callback)
 
-Loads runs previously appended to history.
+Loads all runs previously appended to history.
 
 ##### Arguments
 
