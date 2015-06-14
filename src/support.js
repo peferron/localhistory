@@ -29,6 +29,5 @@ export const promise = typeof Promise === 'function';
 export function consoleWarn() {
     try {
         console.warn.apply(console, arguments); // eslint-disable-line no-console
-    } catch (e) { // eslint-disable-line no-empty
-    }
+    } catch (e) {}
 }
