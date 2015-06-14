@@ -1,4 +1,6 @@
 $(function() {
+    var key = 'locahistory_demo';
+
     function getOutput(input) {
         var output = 0;
         for (var i = 0; i < input.length; i++) {
@@ -12,7 +14,7 @@ $(function() {
         var input = $('#input').val();
         var output = getOutput(input);
 
-        localhistory.save({
+        localhistory.append(key, {
             input: input,
             output: output
         });
@@ -23,7 +25,7 @@ $(function() {
     $('#load').on('click', function() {
         var $header = $('<tr><th>Input</th><th>Output</th></tr>');
 
-        localhistory.load(function(err, entries) {
+        localhistory.load(key, function(err, entries) {
             if (err) {
                 return;
             }
@@ -41,7 +43,7 @@ $(function() {
     });
 
     $('#clear').on('click', function() {
-        localhistory.clear();
+        localhistory.clear(key);
         $('#history').html('');
     });
 });

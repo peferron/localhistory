@@ -68,9 +68,9 @@
     }
 
     var storage = Object.defineProperties({}, {
-        save: {
+        append: {
             get: function () {
-                return storage__save;
+                return storage__append;
             },
             configurable: true,
             enumerable: true
@@ -91,62 +91,60 @@
         }
     });
 
-    var runsKey = 'localhistory_runs_A*O%y21#Q1WSh^f09YO!';
-
-    function storage__save(run, options) {
-        if (options.maxRuns < 1) {
-            throw new Error('Could not save run, maxRuns is ' + options.maxRuns);
+    function storage__append(key, entry, options) {
+        if (options.maxEntries < 1) {
+            throw new Error('Could not append entry, maxEntries is ' + options.maxEntries);
         }
 
-        var runs = undefined;
+        var entries = undefined;
         try {
-            runs = storage__load();
+            entries = storage__load(key);
         } catch (err) {
-            support.consoleWarn('localhistory: could not load previous runs, resetting history', err);
-            runs = [];
+            support.consoleWarn('localhistory: could not load previous entries, resetting history', err.message);
+            entries = [];
         }
 
-        if (runs.length && sameRun(run, runs[runs.length - 1])) {
+        if (entries.length && sameEntry(entry, entries[entries.length - 1])) {
             return;
         }
 
-        runs.push(run);
-        saveRuns(runs, options);
+        entries.push(entry);
+        appendEntries(key, entries, options);
     }
 
-    function sameRun(a, b) {
+    function sameEntry(a, b) {
         return JSON.stringify(a) === JSON.stringify(b);
     }
 
-    function saveRuns(runs, options) {
-        if (runs.length > options.maxRuns) {
-            runs.splice(0, runs.length - options.maxRuns);
+    function appendEntries(key, entries, options) {
+        if (entries.length > options.maxEntries) {
+            entries.splice(0, entries.length - options.maxEntries);
         }
 
         while (true) {
             // eslint-disable-line no-constant-condition
-            var runsStr = JSON.stringify(runs);
+            var entriesStr = JSON.stringify(entries);
 
-            var runsBytes = runsStr.length * 2; // Assumes 16 bits (2 bytes) per code point.
-            if (runsBytes > options.maxBytes) {
-                if (runs.length < 2) {
-                    throw new Error('Could not save run of length ' + runsStr.length + ' ' + ('(' + runsBytes + ' bytes), maxBytes is ' + options.maxBytes));
+            var entriesBytes = entriesStr.length * 2; // Assumes 16 bits (2 bytes) per code point.
+            if (entriesBytes > options.maxBytes) {
+                if (entries.length < 2) {
+                    throw new Error('Could not append entry of length ' + entriesStr.length + ' ' + ('(' + entriesBytes + ' bytes), maxBytes is ' + options.maxBytes));
                 }
 
-                removeFirstHalf(runs);
+                removeFirstHalf(entries);
                 continue;
             }
 
             try {
-                localStorage[runsKey] = runsStr;
+                localStorage[key] = entriesStr;
                 return;
             } catch (err) {
                 if (isQuotaError(err)) {
-                    if (runs.length < 2) {
-                        throw new Error('Could not save run of length ' + runsStr.length + ', ' + 'exceeds localStorage quota');
+                    if (entries.length < 2) {
+                        throw new Error('Could not append entry of length ' + entriesStr.length + ', ' + 'exceeds localStorage quota');
                     }
 
-                    removeFirstHalf(runs);
+                    removeFirstHalf(entries);
                     continue;
                 }
 
@@ -163,53 +161,42 @@
         return err && (err.code === 22 || err.code === 1014 && err.name === 'NS_ERROR_DOM_QUOTA_REACHED');
     }
 
-    function storage__load() {
-        var runsStr = localStorage[runsKey];
-        if (!runsStr) {
+    function storage__load(key) {
+        var entriesStr = localStorage[key];
+        if (!entriesStr) {
             return [];
         }
 
-        var runs = JSON.parse(runsStr);
-        if (!Array.isArray(runs)) {
-            throw new Error('Loaded runs are not an Array');
+        var entries = JSON.parse(entriesStr);
+        if (!Array.isArray(entries)) {
+            throw new Error('Loaded entries are not an Array');
         }
 
-        return runs;
+        return entries;
     }
 
-    function storage__clear() {
-        localStorage.removeItem(runsKey);
+    function storage__clear(key) {
+        localStorage.removeItem(key);
     }
 
-    function now(fn) {
-        fn();
-    }
-
-    function promisify(syncFn, callback) {
-        var asyncFn = arguments[2] === undefined ? now : arguments[2];
-
+    function promisify(fn, callback) {
         if (!support.promise) {
-            asyncFn(function () {
-                exec(syncFn, callback);
-            });
-
+            exec(fn, callback);
             return;
         }
 
         return new Promise(function (resolve, reject) {
             // eslint-disable-line consistent-return
-            asyncFn(function () {
-                exec(syncFn, function (err, result) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
+            exec(fn, function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
 
-                    if (callback) {
-                        callback(err, result);
-                    }
-                });
+                if (callback) {
+                    callback(err, result);
+                }
             });
         });
     }
@@ -230,19 +217,19 @@
 
     var index__supported = support.supported;
 
-    function index__save(run, options, callback) {
+    function index__append(key, entry, options, callback) {
         var cb = typeof options === 'function' ? options : callback;
-        var opts = fillSaveOptions(typeof options === 'object' ? options : {});
+        var opts = fillAppendOptions(typeof options === 'object' ? options : {});
 
         return promisify(function () {
             support.throwIfUnsupported();
-            storage.save(run, opts);
-        }, cb, setTimeout);
+            storage.append(key, entry, opts);
+        }, cb);
     }
 
-    function fillSaveOptions(options) {
-        if (isNaN(options.maxRuns)) {
-            options.maxRuns = 100;
+    function fillAppendOptions(options) {
+        if (isNaN(options.maxEntries)) {
+            options.maxEntries = 100;
         }
         if (isNaN(options.maxBytes)) {
             options.maxBytes = 100000;
@@ -250,22 +237,22 @@
         return options;
     }
 
-    function index__load(callback) {
+    function index__load(key, callback) {
         return promisify(function () {
             support.throwIfUnsupported();
-            return storage.load();
+            return storage.load(key);
         }, callback);
     }
 
-    function index__clear(callback) {
+    function index__clear(key, callback) {
         return promisify(function () {
             support.throwIfUnsupported();
-            storage.clear();
+            storage.clear(key);
         }, callback);
     }
 
     exports.supported = index__supported;
-    exports.save = index__save;
+    exports.append = index__append;
     exports.load = index__load;
     exports.clear = index__clear;
 });
