@@ -1,4 +1,4 @@
-# localhistory [![Build Status](https://travis-ci.org/peferron/localhistory.svg?branch=master)](https://travis-ci.org/peferron/localhistory)
+# localhistory [![Build Status](https://travis-ci.org/peferron/localhistory.svg?branch=master)](https://travis-ci.org/peferron/localhistory) [![Test Coverage](https://codeclimate.com/github/peferron/localhistory/badges/coverage.svg)](https://codeclimate.com/github/peferron/localhistory/coverage)
 
 `localhistory` is a browser library that stores history into [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API).
 
