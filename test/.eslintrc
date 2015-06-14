@@ -5,7 +5,7 @@
     },
     "globals": {
         "expect": true,
-        "playbyplay": true
+        "localhistory": true
     },
     "rules": {
         "no-unused-expressions": 0

@@ -1,7 +1,6 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : factory(global.playbyplay = {});
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : factory(global.localhistory = {});
 })(this, function (exports) {
-    'use strict';
 
     var support = Object.defineProperties({}, {
         supported: {
@@ -37,7 +36,7 @@
     // Required features.
 
     var supportsLocalStorage = (function () {
-        var key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
+        var key = 'localhistory_support_Vo8yTd6aLS$A8huo9$e7';
         var value = Math.random() + '';
 
         try {
@@ -54,7 +53,7 @@
 
     function throwIfUnsupported() {
         if (!support__supported) {
-            throw new Error('This browser does not support playbyplay');
+            throw new Error('This browser does not support localhistory');
         }
     }
 
@@ -92,7 +91,7 @@
         }
     });
 
-    var runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
+    var runsKey = 'localhistory_runs_A*O%y21#Q1WSh^f09YO!';
 
     function storage__save(run, options) {
         if (options.maxRuns < 1) {
@@ -103,7 +102,7 @@
         try {
             runs = storage__load();
         } catch (err) {
-            support.consoleWarn('playbyplay: could not load previous runs, resetting history', err);
+            support.consoleWarn('localhistory: could not load previous runs, resetting history', err);
             runs = [];
         }
 
@@ -270,5 +269,5 @@
     exports.load = index__load;
     exports.clear = index__clear;
 });
-//# sourceMappingURL=./playbyplay.js.map
+//# sourceMappingURL=./localhistory.js.map
 // eslint-disable-line no-empty

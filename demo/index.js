@@ -12,7 +12,7 @@ $(function() {
         var input = $('#input').val();
         var output = getOutput(input);
 
-        playbyplay.save({
+        localhistory.save({
             input: input,
             output: output
         });
@@ -23,7 +23,7 @@ $(function() {
     $('#load').on('click', function() {
         var $header = $('<tr><th>Input</th><th>Output</th></tr>');
 
-        playbyplay.load(function(err, runs) {
+        localhistory.load(function(err, runs) {
             if (err) {
                 return;
             }
@@ -41,7 +41,7 @@ $(function() {
     });
 
     $('#clear').on('click', function() {
-        playbyplay.clear();
+        localhistory.clear();
         $('#history').html('');
     });
 });

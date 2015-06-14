@@ -1,7 +1,7 @@
 // Required features.
 
 const supportsLocalStorage = (() => {
-    const key = 'playbyplay_support_Vo8yTd6aLS$A8huo9$e7';
+    const key = 'localhistory_support_Vo8yTd6aLS$A8huo9$e7';
     const value = Math.random() + '';
 
     try {
@@ -18,7 +18,7 @@ export const supported = supportsLocalStorage && typeof JSON === 'object' && 'is
 
 export function throwIfUnsupported() {
     if (!supported) {
-        throw new Error('This browser does not support playbyplay');
+        throw new Error('This browser does not support localhistory');
     }
 }
 

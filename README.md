@@ -1,24 +1,24 @@
-# playbyplay-core
+# localhistory
 
-Playbyplay is a history library for language playgrounds, with a focus on being a good citizen:
+`localhistory` is a browser library that stores history into [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API).
 
-* Prevents all localStorage exceptions from reaching your code.
-* Trims down history to avoid saturating localStorage.
+* Prevents localStorage exceptions from reaching your code.
+* Trims older runs to avoid saturating localStorage.
 * ~1k minified & gzipped.
 * No dependencies.
 
-This repo hosts the core Playbyplay library, suitable if you want to implement your own UI from scratch. If you would rather start from a prebuilt UI, check out [playbyplay-ui](https://github.com/peferron/playbyplay-ui).
+`localhistory` was initially developed for adding history features to language playgrounds. If you are interested in that, check out the [playbyplay repository](https://github.com/peferron/playbyplay).
 
-A [very simple demo](https://cdn.rawgit.com/peferron/playbyplay-core/master/demo/index.html) is available in the `demo` directory.
+A [very simple demo](https://cdn.rawgit.com/peferron/localhistory/master/demo/index.html) is available in the `demo` directory.
 
 # Installation
 
-1. Download `playbyplay.min.js` from the `dist` directory.
-2. Add it to your web page: `<script src="playbyplay.min.js"></script>`
+1. Download `localhistory.min.js` from the `dist` directory.
+2. Add it to your web page: `<script src="localhistory.min.js"></script>`
 
 # Usage
 
-## playbyplay.save(run, [options], [callback])
+## localhistory.save(run, [options], [callback])
 
 Saves a run to history.
 
@@ -41,17 +41,17 @@ A [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
 
 ```js
 var run = {input: 'Hello World', output: '42'};
-playbyplay.save(run);
+localhistory.save(run);
 ```
 
 ##### Example with options
 
 ```js
 var run = {input: 'Hello World', output: '42'};
-playbyplay.save(run, {maxRuns: 50});
+localhistory.save(run, {maxRuns: 50});
 ```
 
-## playbyplay.load(callback)
+## localhistory.load(callback)
 
 Loads runs previously saved to history.
 
@@ -68,7 +68,7 @@ A `Promise` that can be used instead of the callback, if your browser supports i
 ##### Example with callback
 
 ```js
-playbyplay.load(function(err, runs) {
+localhistory.load(function(err, runs) {
     if (err) {
         console.error('Load failed:', err);
         return;
@@ -80,7 +80,7 @@ playbyplay.load(function(err, runs) {
 ##### Example with promise
 
 ```js
-playbyplay.load().then(function(runs) {
+localhistory.load().then(function(runs) {
     console.log('Load succeeded:', runs);
 }).catch(function(err) {
     console.error('Load failed:', err);
@@ -90,10 +90,10 @@ playbyplay.load().then(function(runs) {
 ##### Example for the adventurous
 
 ```js
-const runs = await playbyplay.load();
+const runs = await localhistory.load();
 ```
 
-## playbyplay.clear([callback])
+## localhistory.clear([callback])
 
 Clears history, removing all saved runs.
 
@@ -109,7 +109,7 @@ A `Promise` that can be used instead of the callback, if your browser supports i
 ##### Example
 
 ```js
-playbyplay.clear();
+localhistory.clear();
 ```
 
 # Contributing

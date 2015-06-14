@@ -3,7 +3,7 @@
         "jquery": true
     },
     "globals": {
-        "playbyplay": true
+        "localhistory": true
     },
     "rules": {
         "no-var": 0,

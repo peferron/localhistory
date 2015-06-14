@@ -4,7 +4,7 @@ describe('after clearing', () => {
     let halfTooLong2;
 
     function init() {
-        const key = 'playbyplay_trash_K79kxaC%I8HrRGDoousr';
+        const key = 'localhistory_trash_K79kxaC%I8HrRGDoousr';
         tooLong = 'startups would kill to grow this fast';
         while (true) { // eslint-disable-line no-constant-condition
             tooLong += tooLong;
@@ -26,27 +26,27 @@ describe('after clearing', () => {
     }
 
     beforeEach(async () => {
-        await playbyplay.clear();
+        await localhistory.clear();
         if (!tooLong) {
             init();
         }
     });
 
     it('should return a quota error when saving a run that cannot fit in localStorage', () =>
-        expect(playbyplay.save(tooLong, {maxBytes: Infinity})).to.be.rejectedWith(Error,
+        expect(localhistory.save(tooLong, {maxBytes: Infinity})).to.be.rejectedWith(Error,
             `Could not save run of length ${tooLong.length + 4}, exceeds localStorage quota`)
     );
 
     describe('and saving two runs that cannot both fit in localStorage', () => {
         beforeEach(async () => {
-            await playbyplay.save(halfTooLong1, {maxBytes: Infinity});
-            await playbyplay.save(halfTooLong2, {maxBytes: Infinity});
+            await localhistory.save(halfTooLong1, {maxBytes: Infinity});
+            await localhistory.save(halfTooLong2, {maxBytes: Infinity});
         });
 
         it('should load the last run only', () =>
-            expect(playbyplay.load()).to.eventually.deep.equal([halfTooLong2])
+            expect(localhistory.load()).to.eventually.deep.equal([halfTooLong2])
         );
     });
 
-    afterEach(playbyplay.clear);
+    afterEach(localhistory.clear);
 });

@@ -5,7 +5,7 @@ describe('after clearing', () => {
     async function save() {
         const run = Math.random();
 
-        await playbyplay.save(run, {maxRuns});
+        await localhistory.save(run, {maxRuns});
 
         savedRuns.push(run);
         if (savedRuns.length > maxRuns) {
@@ -14,12 +14,12 @@ describe('after clearing', () => {
     }
 
     async function load() {
-        const runs = await playbyplay.load();
+        const runs = await localhistory.load();
         expect(runs).to.deep.equal(savedRuns);
     }
 
     async function clear() {
-        await playbyplay.clear();
+        await localhistory.clear();
         savedRuns = [];
     }
 
@@ -47,5 +47,5 @@ describe('after clearing', () => {
         }
     });
 
-    after(playbyplay.clear);
+    after(localhistory.clear);
 });

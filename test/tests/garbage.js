@@ -1,5 +1,5 @@
 // This is the key from storage.js.
-const runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
+const runsKey = 'localhistory_runs_A*O%y21#Q1WSh^f09YO!';
 
 describe('after storing non-JSON data', () => {
     beforeEach(() => {
@@ -7,19 +7,19 @@ describe('after storing non-JSON data', () => {
     });
 
     it('should return an error on load', () =>
-        expect(playbyplay.load()).to.be.rejectedWith(Error,
+        expect(localhistory.load()).to.be.rejectedWith(Error,
             `SyntaxError: Unable to parse JSON string`)
     );
 
     describe('and saving a first run', () => {
-        beforeEach(() => playbyplay.save('first'));
+        beforeEach(() => localhistory.save('first'));
 
         it('should load the first run', () =>
-            expect(playbyplay.load()).to.eventually.deep.equal(['first'])
+            expect(localhistory.load()).to.eventually.deep.equal(['first'])
         );
     });
 
-    after(playbyplay.clear);
+    after(localhistory.clear);
 });
 
 describe('after storing non-Array data', () => {
@@ -28,16 +28,16 @@ describe('after storing non-Array data', () => {
     });
 
     it('should return an error on load', () =>
-        expect(playbyplay.load()).to.be.rejectedWith(Error, `Error: Loaded runs are not an Array`)
+        expect(localhistory.load()).to.be.rejectedWith(Error, `Error: Loaded runs are not an Array`)
     );
 
     describe('and saving a first run', () => {
-        beforeEach(() => playbyplay.save('first'));
+        beforeEach(() => localhistory.save('first'));
 
         it('should load the first run', () =>
-            expect(playbyplay.load()).to.eventually.deep.equal(['first'])
+            expect(localhistory.load()).to.eventually.deep.equal(['first'])
         );
     });
 
-    after(playbyplay.clear);
+    after(localhistory.clear);
 });

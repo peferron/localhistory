@@ -1,7 +1,7 @@
 {
-  "name": "playbyplay",
+  "name": "localhistory",
   "version": "1.0.0",
-  "description": "LocalStorage history for language playgrounds.",
+  "description": "Browser library that stores history into localStorage.",
   "scripts": {
     "build": "gulp clean build",
     "test": "gulp test",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peferron/playbyplay.git"
+    "url": "git+https://github.com/peferron/localhistory.git"
   },
   "keywords": [
     "history",
@@ -21,9 +21,9 @@
   "author": "Pierre-Emile Ferron <peferron@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/peferron/playbyplay/issues"
+    "url": "https://github.com/peferron/localhistory/issues"
   },
-  "homepage": "https://github.com/peferron/playbyplay#readme",
+  "homepage": "https://github.com/peferron/localhistory#readme",
   "devDependencies": {
     "babel": "^5.5.4",
     "babel-core": "^5.5.4",

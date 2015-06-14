@@ -1,10 +1,10 @@
 describe('after clearing', () => {
     beforeEach(done => {
-        playbyplay.clear(done);
+        localhistory.clear(done);
     });
 
     it('should load an empty array', done => {
-        playbyplay.load((err, runs) => {
+        localhistory.load((err, runs) => {
             expect(err).to.be.null;
             expect(runs).to.deep.equal([]);
             done();
@@ -15,11 +15,11 @@ describe('after clearing', () => {
         const firstRun = {first: '1'};
 
         beforeEach((done) => {
-            playbyplay.save(firstRun, done);
+            localhistory.save(firstRun, done);
         });
 
         it('should load the first run', done => {
-            playbyplay.load((err, runs) => {
+            localhistory.load((err, runs) => {
                 expect(err).to.be.null;
                 expect(runs).to.deep.equal([firstRun]);
                 done();
@@ -30,11 +30,11 @@ describe('after clearing', () => {
             const secondRun = {second: '2'};
 
             beforeEach((done) => {
-                playbyplay.save(secondRun, done);
+                localhistory.save(secondRun, done);
             });
 
             it('should load the first and second runs', done => {
-                playbyplay.load((err, runs) => {
+                localhistory.load((err, runs) => {
                     expect(err).to.be.null;
                     expect(runs).to.deep.equal([firstRun, secondRun]);
                     done();
@@ -44,11 +44,11 @@ describe('after clearing', () => {
 
         describe('and saving the first run again', () => {
             beforeEach((done) => {
-                playbyplay.save(firstRun, done);
+                localhistory.save(firstRun, done);
             });
 
             it('should load the first run only once', done => {
-                playbyplay.load((err, runs) => {
+                localhistory.load((err, runs) => {
                     expect(err).to.be.null;
                     expect(runs).to.deep.equal([firstRun]);
                     done();
@@ -58,6 +58,6 @@ describe('after clearing', () => {
     });
 
     after(done => {
-        playbyplay.clear(done);
+        localhistory.clear(done);
     });
 });

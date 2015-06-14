@@ -1,37 +1,37 @@
 describe('after clearing', () => {
-    beforeEach(playbyplay.clear);
+    beforeEach(localhistory.clear);
 
     it('should load an empty array', () =>
-        expect(playbyplay.load()).to.eventually.deep.equal([])
+        expect(localhistory.load()).to.eventually.deep.equal([])
     );
 
     describe('and saving a first run', () => {
         const firstRun = {first: '1'};
 
-        beforeEach(() => playbyplay.save(firstRun));
+        beforeEach(() => localhistory.save(firstRun));
 
         it('should load the first run', () =>
-            expect(playbyplay.load()).to.eventually.deep.equal([firstRun])
+            expect(localhistory.load()).to.eventually.deep.equal([firstRun])
         );
 
         describe('and saving a second run different from the first', () => {
             const secondRun = {second: '2'};
 
-            beforeEach(() => playbyplay.save(secondRun));
+            beforeEach(() => localhistory.save(secondRun));
 
             it('should load the first and second runs', () =>
-                expect(playbyplay.load()).to.eventually.deep.equal([firstRun, secondRun])
+                expect(localhistory.load()).to.eventually.deep.equal([firstRun, secondRun])
             );
         });
 
         describe('and saving the first run again', () => {
-            beforeEach(() => playbyplay.save(firstRun));
+            beforeEach(() => localhistory.save(firstRun));
 
             it('should load the first run only once', () =>
-                expect(playbyplay.load()).to.eventually.deep.equal([firstRun])
+                expect(localhistory.load()).to.eventually.deep.equal([firstRun])
             );
         });
     });
 
-    after(playbyplay.clear);
+    after(localhistory.clear);
 });

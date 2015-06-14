@@ -1,6 +1,6 @@
 import * as support from './support';
 
-const runsKey = 'playbyplay_runs_A*O%y21#Q1WSh^f09YO!';
+const runsKey = 'localhistory_runs_A*O%y21#Q1WSh^f09YO!';
 
 export function save(run, options) {
     if (options.maxRuns < 1) {
@@ -11,7 +11,7 @@ export function save(run, options) {
     try {
         runs = load();
     } catch (err) {
-        support.consoleWarn('playbyplay: could not load previous runs, resetting history', err);
+        support.consoleWarn('localhistory: could not load previous runs, resetting history', err);
         runs = [];
     }
 
