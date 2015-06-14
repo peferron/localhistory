@@ -3,7 +3,7 @@
 `localhistory` is a browser library that stores history into [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API).
 
 * Prevents localStorage exceptions from reaching your code.
-* Trims older runs to avoid saturating localStorage.
+* Trims older entries to avoid saturating localStorage.
 * ~1k minified & gzipped.
 * No dependencies.
 
@@ -18,20 +18,20 @@ A [very simple demo](https://cdn.rawgit.com/peferron/localhistory/master/demo/in
 
 # Usage
 
-## localhistory.save(run, [options], [callback])
+## localhistory.append(run, [options], [callback])
 
-Saves a run to history.
+Appends a run to history.
 
-`save` is asynchronous and will not block immediate rendering. Feel free to `save` immediately after receiving the output.
+`append` is asynchronous and will not block immediate rendering. Feel free to `append` a run immediately after receiving the output.
 
 ##### Arguments
 
-* **`run`** is the value to save to history. `run` can be any value [convertible to JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+* **`run`** is the value to append to history. `run` can be any value [convertible to JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 * **`[options]`** is an optional set of key/value pairs:
   * **`maxRuns`** is the maximum number of runs the history should keep. Defaults to 100.
   * **`maxBytes`** is the maximum number of bytes the history should use. Defaults to 100,000.
 * **`[callback]`** is an optional callback function, taking one argument:
-  * **`err`** is `null` if the run was saved successfully, or an `Error` object if the run was not saved successfully.
+  * **`err`** is `null` if the run was appended successfully, or an `Error` object if the run was not appended successfully.
 
 ##### Returns
 
@@ -41,19 +41,19 @@ A [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
 
 ```js
 var run = {input: 'Hello World', output: '42'};
-localhistory.save(run);
+localhistory.append(run);
 ```
 
 ##### Example with options
 
 ```js
 var run = {input: 'Hello World', output: '42'};
-localhistory.save(run, {maxRuns: 50});
+localhistory.append(run, {maxRuns: 50});
 ```
 
 ## localhistory.load(callback)
 
-Loads runs previously saved to history.
+Loads runs previously appended to history.
 
 ##### Arguments
 
@@ -95,7 +95,7 @@ const runs = await localhistory.load();
 
 ## localhistory.clear([callback])
 
-Clears history, removing all saved runs.
+Clears history, removing all runs.
 
 ##### Arguments
 

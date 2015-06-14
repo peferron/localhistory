@@ -1,26 +1,26 @@
 describe('after clearing', () => {
     const maxRuns = 100;
-    let savedRuns;
+    let appendedRuns;
 
-    async function save() {
+    async function append() {
         const run = Math.random();
 
-        await localhistory.save(run, {maxRuns});
+        await localhistory.append(run, {maxRuns});
 
-        savedRuns.push(run);
-        if (savedRuns.length > maxRuns) {
-            savedRuns.shift();
+        appendedRuns.push(run);
+        if (appendedRuns.length > maxRuns) {
+            appendedRuns.shift();
         }
     }
 
     async function load() {
         const runs = await localhistory.load();
-        expect(runs).to.deep.equal(savedRuns);
+        expect(runs).to.deep.equal(appendedRuns);
     }
 
     async function clear() {
         await localhistory.clear();
-        savedRuns = [];
+        appendedRuns = [];
     }
 
     beforeEach(clear);
@@ -29,7 +29,7 @@ describe('after clearing', () => {
         for (let i = 0; i < 200; i++) {
             const r = Math.random();
             if (r < 0.8) {
-                await save();
+                await append();
             } else if (r < 0.95) {
                 await load();
             } else {
@@ -40,7 +40,7 @@ describe('after clearing', () => {
 
     it('should keep in sync when saving more runs than maxRuns', async () => {
         for (let i = 0; i < 3 * maxRuns; i++) {
-            await save();
+            await append();
             if (Math.random() < 0.2) {
                 await load();
             }

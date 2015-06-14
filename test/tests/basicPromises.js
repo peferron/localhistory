@@ -8,7 +8,7 @@ describe('after clearing', () => {
     describe('and saving a first run', () => {
         const firstRun = {first: '1'};
 
-        beforeEach(() => localhistory.save(firstRun));
+        beforeEach(() => localhistory.append(firstRun));
 
         it('should load the first run', () =>
             expect(localhistory.load()).to.eventually.deep.equal([firstRun])
@@ -17,7 +17,7 @@ describe('after clearing', () => {
         describe('and saving a second run different from the first', () => {
             const secondRun = {second: '2'};
 
-            beforeEach(() => localhistory.save(secondRun));
+            beforeEach(() => localhistory.append(secondRun));
 
             it('should load the first and second runs', () =>
                 expect(localhistory.load()).to.eventually.deep.equal([firstRun, secondRun])
@@ -25,7 +25,7 @@ describe('after clearing', () => {
         });
 
         describe('and saving the first run again', () => {
-            beforeEach(() => localhistory.save(firstRun));
+            beforeEach(() => localhistory.append(firstRun));
 
             it('should load the first run only once', () =>
                 expect(localhistory.load()).to.eventually.deep.equal([firstRun])

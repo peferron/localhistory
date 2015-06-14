@@ -12,7 +12,7 @@ describe('after clearing', () => {
         const firstRun = {first: '1'};
 
         beforeEach(async () => {
-            await localhistory.save(firstRun);
+            await localhistory.append(firstRun);
         });
 
         it('should load the first run', async () => {
@@ -24,7 +24,7 @@ describe('after clearing', () => {
             const secondRun = {second: '2'};
 
             beforeEach(async () => {
-                await localhistory.save(secondRun);
+                await localhistory.append(secondRun);
             });
 
             it('should load the first and second runs', async () => {
@@ -35,7 +35,7 @@ describe('after clearing', () => {
 
         describe('and saving the first run again', () => {
             beforeEach(async () => {
-                await localhistory.save(firstRun);
+                await localhistory.append(firstRun);
             });
 
             it('should load the first run only once', async () => {

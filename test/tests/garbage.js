@@ -12,7 +12,7 @@ describe('after storing non-JSON data', () => {
     );
 
     describe('and saving a first run', () => {
-        beforeEach(() => localhistory.save('first'));
+        beforeEach(() => localhistory.append('first'));
 
         it('should load the first run', () =>
             expect(localhistory.load()).to.eventually.deep.equal(['first'])
@@ -32,7 +32,7 @@ describe('after storing non-Array data', () => {
     );
 
     describe('and saving a first run', () => {
-        beforeEach(() => localhistory.save('first'));
+        beforeEach(() => localhistory.append('first'));
 
         it('should load the first run', () =>
             expect(localhistory.load()).to.eventually.deep.equal(['first'])

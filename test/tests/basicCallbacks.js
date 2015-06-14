@@ -15,7 +15,7 @@ describe('after clearing', () => {
         const firstRun = {first: '1'};
 
         beforeEach((done) => {
-            localhistory.save(firstRun, done);
+            localhistory.append(firstRun, done);
         });
 
         it('should load the first run', done => {
@@ -30,7 +30,7 @@ describe('after clearing', () => {
             const secondRun = {second: '2'};
 
             beforeEach((done) => {
-                localhistory.save(secondRun, done);
+                localhistory.append(secondRun, done);
             });
 
             it('should load the first and second runs', done => {
@@ -44,7 +44,7 @@ describe('after clearing', () => {
 
         describe('and saving the first run again', () => {
             beforeEach((done) => {
-                localhistory.save(firstRun, done);
+                localhistory.append(firstRun, done);
             });
 
             it('should load the first run only once', done => {

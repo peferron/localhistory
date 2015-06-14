@@ -2,9 +2,9 @@ import * as support from './support';
 
 const runsKey = 'localhistory_runs_A*O%y21#Q1WSh^f09YO!';
 
-export function save(run, options) {
+export function append(run, options) {
     if (options.maxRuns < 1) {
-        throw new Error(`Could not save run, maxRuns is ${options.maxRuns}`);
+        throw new Error(`Could not append run, maxRuns is ${options.maxRuns}`);
     }
 
     let runs;
@@ -21,14 +21,14 @@ export function save(run, options) {
     }
 
     runs.push(run);
-    saveRuns(runs, options);
+    appendRuns(runs, options);
 }
 
 function sameRun(a, b) {
     return JSON.stringify(a) === JSON.stringify(b);
 }
 
-function saveRuns(runs, options) {
+function appendRuns(runs, options) {
     if (runs.length > options.maxRuns) {
         runs.splice(0, runs.length - options.maxRuns);
     }
@@ -39,7 +39,7 @@ function saveRuns(runs, options) {
         const runsBytes = runsStr.length * 2; // Assumes 16 bits (2 bytes) per code point.
         if (runsBytes > options.maxBytes) {
             if (runs.length < 2) {
-                throw new Error(`Could not save run of length ${runsStr.length} ` +
+                throw new Error(`Could not append run of length ${runsStr.length} ` +
                     `(${runsBytes} bytes), maxBytes is ${options.maxBytes}`);
             }
 
@@ -53,7 +53,7 @@ function saveRuns(runs, options) {
         } catch (err) {
             if (isQuotaError(err)) {
                 if (runs.length < 2) {
-                    throw new Error(`Could not save run of length ${runsStr.length}, ` +
+                    throw new Error(`Could not append run of length ${runsStr.length}, ` +
                         `exceeds localStorage quota`);
                 }
 
