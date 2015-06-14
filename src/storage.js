@@ -11,7 +11,8 @@ export function save(run, options) {
     try {
         runs = load();
     } catch (err) {
-        support.consoleWarn('localhistory: could not load previous runs, resetting history', err);
+        support.consoleWarn('localhistory: could not load previous runs, resetting history',
+            err.message);
         runs = [];
     }
 
