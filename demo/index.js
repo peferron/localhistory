@@ -1,44 +1,23 @@
 $(function() {
     var key = 'locahistory_demo';
 
-    function getOutput(input) {
-        var output = 0;
-        for (var i = 0; i < input.length; i++) {
-            output += input.charCodeAt(i);
-        }
-
-        return output;
-    }
-
-    $('#run').on('click', function() {
-        var input = $('#input').val();
-        var output = getOutput(input);
-
-        localhistory.append(key, {
-            input: input,
-            output: output
-        });
-
-        $('#output').text(output);
+    $('#append').on('click', function() {
+        var entry = $('#entry').val();
+        localhistory.append(key, entry);
     });
 
     $('#load').on('click', function() {
-        var $header = $('<tr><th>Input</th><th>Output</th></tr>');
-
         localhistory.load(key, function(err, entries) {
             if (err) {
+                alert(err);
                 return;
             }
 
             var $entries = entries.reverse().map(function(entry) {
-                var $input = $('<td></td>').text(entry.input);
-                var $output = $('<td></td>').text(entry.output);
-                return $('<tr></tr>').append($input, $output);
+                return $('<li>').append(JSON.stringify(entry));
             });
 
-            var $table = $('<table></table>').append($header, $entries);
-
-            $('#history').html($table);
+            $('#history').html($entries);
         });
     });
 

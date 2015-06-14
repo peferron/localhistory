@@ -9,20 +9,10 @@
         <script src="index.js"></script>
     </head>
     <body>
-        <table>
-            <tr>
-                <th>Input</th>
-                <th></th>
-                <th>Output</th>
-            </tr>
-            <tr>
-                <td><textarea id="input">Hello world!</textarea></td>
-                <td><button type="button" id="run">Run</button></td>
-                <td><div id="output"></div></td>
-            </tr>
-        </table>
+        <textarea id="entry">Hello world!</textarea><br>
+        <button type="button" id="append">Append to history</button><br>
         <button type="button" id="load">Load history</button>
         <button type="button" id="clear">Clear history</button><br>
-        <div id="history"></div>
+        <ul id="history"></ul>
     </body>
 </html>

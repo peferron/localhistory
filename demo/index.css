@@ -1,28 +1,10 @@
-#input, #output {
+#entry {
     width: 400px;
-    height: 400px;
+    height: 100px;
     padding: 10px;
-    font-family: monospace;
     font-size: 1em;
-}
-
-th {
-    text-align: left;
-}
-
-#output {
-    background: #F0F0F0;
 }
 
 #load {
     margin: 40px 0 10px;
-}
-
-#history table, #history th, #history td {
-    border: 1px solid #CCC;
-    border-collapse: collapse;
-}
-
-#history th, #history td {
-    padding: 10px;
 }
