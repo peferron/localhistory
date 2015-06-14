@@ -6,6 +6,7 @@
         "localhistory": true
     },
     "rules": {
+        "no-alert": 0,
         "no-var": 0,
         "vars-on-top": 0
     }
