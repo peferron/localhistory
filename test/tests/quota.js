@@ -32,18 +32,18 @@ describe('after clearing', () => {
         }
     });
 
-    it('should return a quota error when saving a run that cannot fit in localStorage', () =>
+    it('should return a quota error when saving a entry that cannot fit in localStorage', () =>
         expect(localhistory.append(tooLong, {maxBytes: Infinity})).to.be.rejectedWith(Error,
-            `Could not append run of length ${tooLong.length + 4}, exceeds localStorage quota`)
+            `Could not append entry of length ${tooLong.length + 4}, exceeds localStorage quota`)
     );
 
-    describe('and saving two runs that cannot both fit in localStorage', () => {
+    describe('and saving two entries that cannot both fit in localStorage', () => {
         beforeEach(async () => {
             await localhistory.append(halfTooLong1, {maxBytes: Infinity});
             await localhistory.append(halfTooLong2, {maxBytes: Infinity});
         });
 
-        it('should load the last run only', () =>
+        it('should load the last entry only', () =>
             expect(localhistory.load()).to.eventually.deep.equal([halfTooLong2])
         );
     });

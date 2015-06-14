@@ -1,63 +1,63 @@
 import * as support from './support';
 
-const runsKey = 'localhistory_runs_A*O%y21#Q1WSh^f09YO!';
+const entriesKey = 'localhistory_entries_A*O%y21#Q1WSh^f09YO!';
 
-export function append(run, options) {
-    if (options.maxRuns < 1) {
-        throw new Error(`Could not append run, maxRuns is ${options.maxRuns}`);
+export function append(entry, options) {
+    if (options.maxEntries < 1) {
+        throw new Error(`Could not append entry, maxEntries is ${options.maxEntries}`);
     }
 
-    let runs;
+    let entries;
     try {
-        runs = load();
+        entries = load();
     } catch (err) {
-        support.consoleWarn('localhistory: could not load previous runs, resetting history',
+        support.consoleWarn('localhistory: could not load previous entries, resetting history',
             err.message);
-        runs = [];
+        entries = [];
     }
 
-    if (runs.length && sameRun(run, runs[runs.length - 1])) {
+    if (entries.length && sameEntry(entry, entries[entries.length - 1])) {
         return;
     }
 
-    runs.push(run);
-    appendRuns(runs, options);
+    entries.push(entry);
+    appendentries(entries, options);
 }
 
-function sameRun(a, b) {
+function sameEntry(a, b) {
     return JSON.stringify(a) === JSON.stringify(b);
 }
 
-function appendRuns(runs, options) {
-    if (runs.length > options.maxRuns) {
-        runs.splice(0, runs.length - options.maxRuns);
+function appendentries(entries, options) {
+    if (entries.length > options.maxEntries) {
+        entries.splice(0, entries.length - options.maxEntries);
     }
 
     while (true) { // eslint-disable-line no-constant-condition
-        const runsStr = JSON.stringify(runs);
+        const entriesStr = JSON.stringify(entries);
 
-        const runsBytes = runsStr.length * 2; // Assumes 16 bits (2 bytes) per code point.
-        if (runsBytes > options.maxBytes) {
-            if (runs.length < 2) {
-                throw new Error(`Could not append run of length ${runsStr.length} ` +
-                    `(${runsBytes} bytes), maxBytes is ${options.maxBytes}`);
+        const entriesBytes = entriesStr.length * 2; // Assumes 16 bits (2 bytes) per code point.
+        if (entriesBytes > options.maxBytes) {
+            if (entries.length < 2) {
+                throw new Error(`Could not append entry of length ${entriesStr.length} ` +
+                    `(${entriesBytes} bytes), maxBytes is ${options.maxBytes}`);
             }
 
-            removeFirstHalf(runs);
+            removeFirstHalf(entries);
             continue;
         }
 
         try {
-            localStorage[runsKey] = runsStr;
+            localStorage[entriesKey] = entriesStr;
             return;
         } catch (err) {
             if (isQuotaError(err)) {
-                if (runs.length < 2) {
-                    throw new Error(`Could not append run of length ${runsStr.length}, ` +
+                if (entries.length < 2) {
+                    throw new Error(`Could not append entry of length ${entriesStr.length}, ` +
                         `exceeds localStorage quota`);
                 }
 
-                removeFirstHalf(runs);
+                removeFirstHalf(entries);
                 continue;
             }
 
@@ -77,19 +77,19 @@ function isQuotaError(err) {
 }
 
 export function load() {
-    const runsStr = localStorage[runsKey];
-    if (!runsStr) {
+    const entriesStr = localStorage[entriesKey];
+    if (!entriesStr) {
         return [];
     }
 
-    const runs = JSON.parse(runsStr);
-    if (!Array.isArray(runs)) {
-        throw new Error('Loaded runs are not an Array');
+    const entries = JSON.parse(entriesStr);
+    if (!Array.isArray(entries)) {
+        throw new Error('Loaded entries are not an Array');
     }
 
-    return runs;
+    return entries;
 }
 
 export function clear() {
-    localStorage.removeItem(runsKey);
+    localStorage.removeItem(entriesKey);
 }

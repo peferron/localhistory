@@ -4,43 +4,43 @@ describe('after clearing', () => {
     });
 
     it('should load an empty array', async () => {
-        const runs = await localhistory.load();
-        expect(runs).to.deep.equal([]);
+        const entries = await localhistory.load();
+        expect(entries).to.deep.equal([]);
     });
 
-    describe('and saving a first run', () => {
-        const firstRun = {first: '1'};
+    describe('and saving a first entry', () => {
+        const firstEntry = {first: '1'};
 
         beforeEach(async () => {
-            await localhistory.append(firstRun);
+            await localhistory.append(firstEntry);
         });
 
-        it('should load the first run', async () => {
-            const runs = await localhistory.load();
-            expect(runs).to.deep.equal([firstRun]);
+        it('should load the first entry', async () => {
+            const entries = await localhistory.load();
+            expect(entries).to.deep.equal([firstEntry]);
         });
 
-        describe('and saving a second run different from the first', () => {
-            const secondRun = {second: '2'};
+        describe('and saving a second entry different from the first', () => {
+            const secondEntry = {second: '2'};
 
             beforeEach(async () => {
-                await localhistory.append(secondRun);
+                await localhistory.append(secondEntry);
             });
 
-            it('should load the first and second runs', async () => {
-                const runs = await localhistory.load();
-                expect(runs).to.deep.equal([firstRun, secondRun]);
+            it('should load the first and second entries', async () => {
+                const entries = await localhistory.load();
+                expect(entries).to.deep.equal([firstEntry, secondEntry]);
             });
         });
 
-        describe('and saving the first run again', () => {
+        describe('and saving the first entry again', () => {
             beforeEach(async () => {
-                await localhistory.append(firstRun);
+                await localhistory.append(firstEntry);
             });
 
-            it('should load the first run only once', async () => {
-                const runs = await localhistory.load();
-                expect(runs).to.deep.equal([firstRun]);
+            it('should load the first entry only once', async () => {
+                const entries = await localhistory.load();
+                expect(entries).to.deep.equal([firstEntry]);
             });
         });
     });

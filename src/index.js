@@ -4,19 +4,19 @@ import promisify from './promisify';
 
 export const supported = support.supported;
 
-export function append(run, options, callback) {
+export function append(entry, options, callback) {
     const cb = typeof options === 'function' ? options : callback;
     const opts = fillAppendOptions(typeof options === 'object' ? options : {});
 
     return promisify(() => {
         support.throwIfUnsupported();
-        storage.append(run, opts);
+        storage.append(entry, opts);
     }, cb, setTimeout);
 }
 
 function fillAppendOptions(options) {
-    if (isNaN(options.maxRuns)) {
-        options.maxRuns = 100;
+    if (isNaN(options.maxEntries)) {
+        options.maxEntries = 100;
     }
     if (isNaN(options.maxBytes)) {
         options.maxBytes = 100000;

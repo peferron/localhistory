@@ -23,18 +23,18 @@ $(function() {
     $('#load').on('click', function() {
         var $header = $('<tr><th>Input</th><th>Output</th></tr>');
 
-        localhistory.load(function(err, runs) {
+        localhistory.load(function(err, entries) {
             if (err) {
                 return;
             }
 
-            var $runs = runs.reverse().map(function(run) {
-                var $input = $('<td></td>').text(run.input);
-                var $output = $('<td></td>').text(run.output);
+            var $entries = entries.reverse().map(function(entry) {
+                var $input = $('<td></td>').text(entry.input);
+                var $output = $('<td></td>').text(entry.output);
                 return $('<tr></tr>').append($input, $output);
             });
 
-            var $table = $('<table></table>').append($header, $runs);
+            var $table = $('<table></table>').append($header, $entries);
 
             $('#history').html($table);
         });

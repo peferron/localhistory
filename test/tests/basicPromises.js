@@ -5,30 +5,30 @@ describe('after clearing', () => {
         expect(localhistory.load()).to.eventually.deep.equal([])
     );
 
-    describe('and saving a first run', () => {
-        const firstRun = {first: '1'};
+    describe('and saving a first entry', () => {
+        const firstEntry = {first: '1'};
 
-        beforeEach(() => localhistory.append(firstRun));
+        beforeEach(() => localhistory.append(firstEntry));
 
-        it('should load the first run', () =>
-            expect(localhistory.load()).to.eventually.deep.equal([firstRun])
+        it('should load the first entry', () =>
+            expect(localhistory.load()).to.eventually.deep.equal([firstEntry])
         );
 
-        describe('and saving a second run different from the first', () => {
-            const secondRun = {second: '2'};
+        describe('and saving a second entry different from the first', () => {
+            const secondEntry = {second: '2'};
 
-            beforeEach(() => localhistory.append(secondRun));
+            beforeEach(() => localhistory.append(secondEntry));
 
-            it('should load the first and second runs', () =>
-                expect(localhistory.load()).to.eventually.deep.equal([firstRun, secondRun])
+            it('should load the first and second entries', () =>
+                expect(localhistory.load()).to.eventually.deep.equal([firstEntry, secondEntry])
             );
         });
 
-        describe('and saving the first run again', () => {
-            beforeEach(() => localhistory.append(firstRun));
+        describe('and saving the first entry again', () => {
+            beforeEach(() => localhistory.append(firstEntry));
 
-            it('should load the first run only once', () =>
-                expect(localhistory.load()).to.eventually.deep.equal([firstRun])
+            it('should load the first entry only once', () =>
+                expect(localhistory.load()).to.eventually.deep.equal([firstEntry])
             );
         });
     });

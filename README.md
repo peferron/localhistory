@@ -18,20 +18,20 @@ A [very simple demo](https://cdn.rawgit.com/peferron/localhistory/master/demo/in
 
 # Usage
 
-## localhistory.append(run, [options], [callback])
+## localhistory.append(entry, [options], [callback])
 
-Appends a run to history.
+Appends a entry to history.
 
-`append` is asynchronous and will not block immediate rendering. Feel free to `append` a run immediately after receiving the output.
+`append` is asynchronous and will not block immediate rendering. Feel free to `append` a entry immediately after receiving the output.
 
 ##### Arguments
 
-* **`run`** is the value to append to history. `run` can be any value [convertible to JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+* **`entry`** is the value to append to history. `entry` can be any value [convertible to JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 * **`[options]`** is an optional set of key/value pairs:
-  * **`maxRuns`** is the maximum number of runs the history should keep. Defaults to 100.
+  * **`maxEntries`** is the maximum number of entries the history should keep. Defaults to 100.
   * **`maxBytes`** is the maximum number of bytes the history should use. Defaults to 100,000.
 * **`[callback]`** is an optional callback function, taking one argument:
-  * **`err`** is `null` if the run was appended successfully, or an `Error` object if the run was not appended successfully.
+  * **`err`** is `null` if the entry was appended successfully, or an `Error` object if the entry was not appended successfully.
 
 ##### Returns
 
@@ -40,26 +40,26 @@ A [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
 ##### Example
 
 ```js
-var run = {input: 'Hello World', output: '42'};
-localhistory.append(run);
+var entry = {hello: 'World'};
+localhistory.append(entry);
 ```
 
 ##### Example with options
 
 ```js
-var run = {input: 'Hello World', output: '42'};
-localhistory.append(run, {maxRuns: 50});
+var entry = {hello: 'World'};
+localhistory.append(entry, {maxEntries: 50});
 ```
 
 ## localhistory.load(callback)
 
-Loads all runs previously appended to history.
+Loads all entries previously appended to history.
 
 ##### Arguments
 
 * **`callback`** is a callback function, taking two arguments:
-  * **`err`** is `null` if the runs were loaded successfully, or an `Error` object if the runs were not loaded successfully.
-  * **`runs`** is an `Array` containing the loaded runs, or `undefined` if the runs were not loaded successfully.
+  * **`err`** is `null` if the entries were loaded successfully, or an `Error` object if the entries were not loaded successfully.
+  * **`entries`** is an `Array` containing the loaded entries, or `undefined` if the entries were not loaded successfully.
 
 ##### Returns
 
@@ -68,20 +68,20 @@ A `Promise` that can be used instead of the callback, if your browser supports i
 ##### Example with callback
 
 ```js
-localhistory.load(function(err, runs) {
+localhistory.load(function(err, entries) {
     if (err) {
         console.error('Load failed:', err);
         return;
     }
-    console.log('Load succeeded:', runs);
+    console.log('Load succeeded:', entries);
 });
 ```
 
 ##### Example with promise
 
 ```js
-localhistory.load().then(function(runs) {
-    console.log('Load succeeded:', runs);
+localhistory.load().then(function(entries) {
+    console.log('Load succeeded:', entries);
 }).catch(function(err) {
     console.error('Load failed:', err);
 });
@@ -90,12 +90,12 @@ localhistory.load().then(function(runs) {
 ##### Example for the adventurous
 
 ```js
-const runs = await localhistory.load();
+const entries = await localhistory.load();
 ```
 
 ## localhistory.clear([callback])
 
-Clears history, removing all runs.
+Clears history, removing all entries.
 
 ##### Arguments
 

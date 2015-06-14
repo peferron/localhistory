@@ -1,12 +1,12 @@
 describe('after clearing', () => {
     beforeEach(localhistory.clear);
 
-    it('should return an error if saving with maxRuns = 0', () =>
-        expect(localhistory.append('6th', {maxRuns: 0})).to.be.rejectedWith(Error,
-            'Could not append run, maxRuns is 0')
+    it('should return an error if saving with maxEntries = 0', () =>
+        expect(localhistory.append('6th', {maxEntries: 0})).to.be.rejectedWith(Error,
+            'Could not append entry, maxEntries is 0')
     );
 
-    describe('and saving 5 runs without maxBytes', () => {
+    describe('and saving 5 entries without maxBytes', () => {
         beforeEach(async () => {
             await localhistory.clear();
             await localhistory.append('1st');
@@ -16,17 +16,17 @@ describe('after clearing', () => {
             await localhistory.append('5th');
         });
 
-        it('should load 5 runs', async () =>
+        it('should load 5 entries', async () =>
             expect(localhistory.load()).to.eventually.deep.equal(
                 ['1st', '2nd', '3rd', '4th', '5th'])
         );
 
-        describe('and saving 1 run with maxRuns = 3', () => {
+        describe('and saving 1 entry with maxEntries = 3', () => {
             beforeEach(() =>
-                localhistory.append('6th', {maxRuns: 3})
+                localhistory.append('6th', {maxEntries: 3})
             );
 
-            it('should load the last 3 runs only', () =>
+            it('should load the last 3 entries only', () =>
                 expect(localhistory.load()).to.eventually.deep.equal(['4th', '5th', '6th'])
             );
         });
