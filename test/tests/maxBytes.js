@@ -17,7 +17,8 @@ describe('after clearing', () => {
         });
 
         it('should load 5 runs', async () =>
-            expect(localhistory.load()).to.eventually.deep.equal(['1st', '2nd', '3rd', '4th', '5th'])
+            expect(localhistory.load()).to.eventually.deep.equal(
+                ['1st', '2nd', '3rd', '4th', '5th'])
         );
 
         describe('and saving 1 run with maxBytes = 40', () => {
