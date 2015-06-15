@@ -36,17 +36,22 @@
     // Required features.
 
     var supportsLocalStorage = (function () {
-        var key = 'localhistory_support_Vo8yTd6aLS$A8huo9$e7';
-        var value = Math.random() + '';
+        var key = 'localhistory_support_' + Math.random();
+        var value = '' + Math.random();
+        var success = false;
 
         try {
             localStorage[key] = value;
-            var success = localStorage[key] === value;
+            success = localStorage[key] === value;
+        } catch (e) {}
+
+        try {
             localStorage.removeItem(key);
-            return success;
         } catch (e) {
-            return false;
+            success = false;
         }
+
+        return success;
     })();
 
     var support__supported = supportsLocalStorage && typeof JSON === 'object' && 'isArray' in Array;
@@ -104,7 +109,7 @@
             entries = [];
         }
 
-        if (entries.length && sameEntry(entry, entries[entries.length - 1])) {
+        if (!options.appendIfEqualToLast && entries.length && sameEntry(entry, entries[entries.length - 1])) {
             return;
         }
 
@@ -234,6 +239,9 @@
         if (isNaN(options.maxBytes)) {
             options.maxBytes = 100000;
         }
+        if (!options.hasOwnProperty('appendIfEqualToLast')) {
+            options.appendIfEqualToLast = true;
+        }
         return options;
     }
 
@@ -257,4 +265,3 @@
     exports.clear = index__clear;
 });
 //# sourceMappingURL=./localhistory.js.map
-// eslint-disable-line no-empty
