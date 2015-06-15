@@ -29,6 +29,7 @@ Appends an entry to history.
 * **`[options]`** is an optional set of key/value pairs:
   * **`maxEntries`** is the maximum number of entries the history should keep. Defaults to 100.
   * **`maxBytes`** is the maximum number of bytes the history should use. Defaults to 100,000.
+  * **`appendIfEqualToLast`** appends `entry` even if it is equal to the last history entry. Equality is determined by JSON comparison. Defaults to `true`.
 * **`[callback]`** is an optional callback function, taking one argument:
   * **`err`** is `null` if the entry was appended successfully, or an `Error` object if the entry was not appended successfully.
 

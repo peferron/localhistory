@@ -20,7 +20,7 @@ describe('after clearing', () => {
             expect(entries).to.deep.equal([firstEntry]);
         });
 
-        describe('and saving a second entry different from the first', () => {
+        describe('and saving a second entry', () => {
             const secondEntry = {second: '2'};
 
             beforeEach(async () => {
@@ -30,17 +30,6 @@ describe('after clearing', () => {
             it('should load the first and second entries', async () => {
                 const entries = await localhistory.load('test');
                 expect(entries).to.deep.equal([firstEntry, secondEntry]);
-            });
-        });
-
-        describe('and saving the first entry again', () => {
-            beforeEach(async () => {
-                await localhistory.append('test', firstEntry);
-            });
-
-            it('should load the first entry only once', async () => {
-                const entries = await localhistory.load('test');
-                expect(entries).to.deep.equal([firstEntry]);
             });
         });
     });

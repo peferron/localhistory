@@ -26,7 +26,7 @@ describe('after clearing', () => {
             });
         });
 
-        describe('and saving a second entry different from the first', () => {
+        describe('and saving a second entry', () => {
             const secondEntry = {second: '2'};
 
             beforeEach((done) => {
@@ -37,20 +37,6 @@ describe('after clearing', () => {
                 localhistory.load('test', (err, entries) => {
                     expect(err).to.be.null;
                     expect(entries).to.deep.equal([firstEntry, secondEntry]);
-                    done();
-                });
-            });
-        });
-
-        describe('and saving the first entry again', () => {
-            beforeEach((done) => {
-                localhistory.append('test', firstEntry, done);
-            });
-
-            it('should load the first entry only once', done => {
-                localhistory.load('test', (err, entries) => {
-                    expect(err).to.be.null;
-                    expect(entries).to.deep.equal([firstEntry]);
                     done();
                 });
             });

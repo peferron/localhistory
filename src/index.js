@@ -21,6 +21,9 @@ function fillAppendOptions(options) {
     if (isNaN(options.maxBytes)) {
         options.maxBytes = 100000;
     }
+    if (!options.hasOwnProperty('appendIfEqualToLast')) {
+        options.appendIfEqualToLast = true;
+    }
     return options;
 }
 

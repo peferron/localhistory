@@ -14,7 +14,8 @@ export function append(key, entry, options) {
         entries = [];
     }
 
-    if (entries.length && sameEntry(entry, entries[entries.length - 1])) {
+    if (!options.appendIfEqualToLast && entries.length &&
+        sameEntry(entry, entries[entries.length - 1])) {
         return;
     }
 
