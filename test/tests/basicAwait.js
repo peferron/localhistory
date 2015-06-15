@@ -9,27 +9,27 @@ describe('after clearing', () => {
     });
 
     describe('and saving a first entry', () => {
-        const firstEntry = {first: '1'};
+        const first = {first: '1'};
 
         beforeEach(async () => {
-            await localhistory.append('test', firstEntry);
+            await localhistory.append('test', first);
         });
 
         it('should load the first entry', async () => {
             const entries = await localhistory.load('test');
-            expect(entries).to.deep.equal([firstEntry]);
+            expect(entries).to.deep.equal([first]);
         });
 
         describe('and saving a second entry', () => {
-            const secondEntry = {second: '2'};
+            const second = {second: '2'};
 
             beforeEach(async () => {
-                await localhistory.append('test', secondEntry);
+                await localhistory.append('test', second);
             });
 
             it('should load the first and second entries', async () => {
                 const entries = await localhistory.load('test');
-                expect(entries).to.deep.equal([firstEntry, secondEntry]);
+                expect(entries).to.deep.equal([first, second]);
             });
         });
     });

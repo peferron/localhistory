@@ -14,7 +14,7 @@ describe('after clearing', () => {
             );
         });
 
-        describe('and saving the first entry again with appendIfEqualToLast set to false', () => {
+        describe('and saving the first entry again with appendIfEqualToLast = false', () => {
             beforeEach(() => localhistory.append('test', first, {appendIfEqualToLast: false}));
 
             it('should load the first entry only once', () =>

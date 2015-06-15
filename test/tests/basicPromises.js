@@ -6,22 +6,21 @@ describe('after clearing', () => {
     );
 
     describe('and saving a first entry', () => {
-        const firstEntry = {first: '1'};
+        const first = {first: '1'};
 
-        beforeEach(() => localhistory.append('test', firstEntry));
+        beforeEach(() => localhistory.append('test', first));
 
         it('should load the first entry', () =>
-            expect(localhistory.load('test')).to.eventually.deep.equal([firstEntry])
+            expect(localhistory.load('test')).to.eventually.deep.equal([first])
         );
 
         describe('and saving a second entry', () => {
-            const secondEntry = {second: '2'};
+            const second = {second: '2'};
 
-            beforeEach(() => localhistory.append('test', secondEntry));
+            beforeEach(() => localhistory.append('test', second));
 
             it('should load the first and second entries', () =>
-                expect(localhistory.load('test')).to.eventually.deep.equal(
-                    [firstEntry, secondEntry])
+                expect(localhistory.load('test')).to.eventually.deep.equal([first, second])
             );
         });
     });
