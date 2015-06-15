@@ -122,7 +122,7 @@ Install dependencies:
 $ npm install
 ```
 
-Run tests:
+Lint and test:
 
 ```shell
 $ npm test
@@ -133,3 +133,5 @@ Automatically run tests after each change:
 ```shell
 $ npm run watch
 ```
+
+[ES6+](https://github.com/lukehoban/es6features) is encouraged, but keep an eye on the compiled code in `dist_dev/playbyplay.js` to make sure it does not become bloated after transpilation to ES5.
