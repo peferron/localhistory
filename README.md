@@ -1,13 +1,13 @@
 # localhistory [![Build Status](https://travis-ci.org/peferron/localhistory.svg?branch=master)](https://travis-ci.org/peferron/localhistory) [![Coverage Status](https://coveralls.io/repos/peferron/localhistory/badge.svg)](https://coveralls.io/r/peferron/localhistory)
 
-`localhistory` is a browser library that stores history into [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API).
+localhistory is a browser library that stores history into [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API).
 
 * Prevents localStorage exceptions from reaching your code.
 * Trims older entries to avoid saturating localStorage.
 * ~1k minified & gzipped.
 * No dependencies.
 
-`localhistory` was initially developed for adding history features to language playgrounds. If you are interested in that, check out the [playbyplay repository](https://github.com/peferron/playbyplay).
+localhistory was initially developed for adding history features to language playgrounds. If you are interested in that, check out the [playbyplay repository](https://github.com/peferron/playbyplay).
 
 A [very simple demo](https://rawgit.com/peferron/localhistory/master/demo/index.html) is available in the `demo` directory.
 
@@ -35,7 +35,7 @@ Appends an entry to history.
 
 ##### Returns
 
-A [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that can be used instead of the callback, if [your browser supports it](http://caniuse.com/#feat=promises).
+A [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that can be used instead of the callback.
 
 ##### Example
 
@@ -64,7 +64,7 @@ Loads all entries previously appended to history.
 
 ##### Returns
 
-A `Promise` that can be used instead of the callback, if your browser supports it.
+A `Promise` that can be used instead of the callback.
 
 ##### Example with callback
 
@@ -106,13 +106,25 @@ Clears history, removing all entries.
 
 ##### Returns
 
-A `Promise` that can be used instead of the callback, if your browser supports it.
+A `Promise` that can be used instead of the callback.
 
 ##### Example
 
 ```js
 localhistory.clear('myhistory');
 ```
+
+## localhistory.supported
+
+`true` if the browser supports localhistory, and `false` otherwise.
+
+Required features:
+
+* `localStorage` ([IE8]((http://caniuse.com/#feat=namevalue-storage))).
+* `JSON` ([IE8](http://caniuse.com/#feat=json)).
+* `Array.isArray` ([IE9]((https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray#Browser_compatibility)), add this [5-line polyfill](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray#Polyfill) before the localhistory `<script>` tag if you need IE8 support).
+
+`Promise` support is optional. The API functions simply return `undefined` if the browser does not support promises. Use callbacks instead.
 
 # Contributing
 
@@ -134,4 +146,4 @@ Automatically run tests after each change:
 $ npm run watch
 ```
 
-[ES6+](https://github.com/lukehoban/es6features) is encouraged, but keep an eye on the compiled code in `dist_dev/playbyplay.js` to make sure it does not become bloated after transpilation to ES5.
+[ES6+](https://github.com/lukehoban/es6features) is encouraged, but keep an eye on `dist_dev/playbyplay.js` to make sure the transpiled ES5 code does not become bloated by runtimes and polyfills.
