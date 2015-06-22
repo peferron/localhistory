@@ -146,4 +146,4 @@ Automatically run tests after each change:
 $ npm run watch
 ```
 
-[ECMAScript 2015](https://github.com/lukehoban/es6features) and above is encouraged, but keep an eye on `dist_dev/playbyplay.js` to make sure the transpiled ES5 code does not become bloated by runtimes and polyfills.
+[ECMAScript 2015](https://github.com/lukehoban/es6features) and above is encouraged, but keep an eye on `dist_dev/localhistory.js` to make sure the transpiled ES5 code does not become bloated by runtimes and polyfills.
