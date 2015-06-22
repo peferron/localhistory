@@ -225,7 +225,7 @@
     // key and entry are required, options and callback are optional.
     function index__append(key, entry, options, callback) {
         var cb = typeof options === 'function' ? options : callback;
-        var opts = fillAppendOptions(typeof options === 'object' ? options : {});
+        var opts = fillAppendOptions(options && typeof options === 'object' ? options : {});
 
         return promisify(function () {
             support.throwIfUnsupported();
