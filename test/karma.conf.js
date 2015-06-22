@@ -3,7 +3,7 @@ module.exports = function(config) {
         basePath: '../',
         files: [
             'node_modules/babel-core/browser-polyfill.js',
-            'dist_dev/localhistory.js',
+            'dist_dev/localhistory.min.js',
             'test/tests/**/*.js'
         ],
         frameworks: ['mocha', 'chai-as-promised', 'chai'],
