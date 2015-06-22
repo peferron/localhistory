@@ -7,7 +7,7 @@ export const supported = support.supported;
 // key and entry are required, options and callback are optional.
 export function append(key, entry, options, callback) {
     const cb = typeof options === 'function' ? options : callback;
-    const opts = fillAppendOptions(typeof options === 'object' ? options : {});
+    const opts = fillAppendOptions(options && typeof options === 'object' ? options : {});
 
     return promisify(() => {
         support.throwIfUnsupported();
