@@ -10,7 +10,7 @@ module.exports = function(config) {
         reporters: ['progress', 'coverage'],
         browsers: ['PhantomJS'],
         preprocessors: {
-            'dist_dev/localhistory.js': ['coverage'],
+            'dist_dev/localhistory.min.js': ['coverage'],
             'test/tests/**/*.js': ['babel']
         },
         babelPreprocessor: {
