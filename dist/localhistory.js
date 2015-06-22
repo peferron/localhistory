@@ -222,6 +222,7 @@
 
     var index__supported = support.supported;
 
+    // key and entry are required, options and callback are optional.
     function index__append(key, entry, options, callback) {
         var cb = typeof options === 'function' ? options : callback;
         var opts = fillAppendOptions(typeof options === 'object' ? options : {});
@@ -245,6 +246,7 @@
         return options;
     }
 
+    // key is required, callback is optional.
     function index__load(key, callback) {
         return promisify(function () {
             support.throwIfUnsupported();
@@ -252,6 +254,7 @@
         }, callback);
     }
 
+    // key is required, callback is optional.
     function index__clear(key, callback) {
         return promisify(function () {
             support.throwIfUnsupported();
