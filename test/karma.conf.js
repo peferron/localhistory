@@ -3,14 +3,14 @@ module.exports = function(config) {
         basePath: '../',
         files: [
             'node_modules/babel-core/browser-polyfill.js',
-            'dist_dev/localhistory.min.js',
+            'dist_dev/localhistory.js',
             'test/tests/**/*.js'
         ],
         frameworks: ['mocha', 'chai-as-promised', 'chai'],
         reporters: ['progress', 'coverage'],
         browsers: ['PhantomJS'],
         preprocessors: {
-            'dist_dev/localhistory.min.js': ['coverage'],
+            'dist_dev/localhistory.js': ['coverage'],
             'test/tests/**/*.js': ['babel']
         },
         babelPreprocessor: {
