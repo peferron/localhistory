@@ -4,8 +4,8 @@
         "node": true
     },
     "globals": {
-        "expect": true,
-        "localhistory": true
+        "expect": false,
+        "localhistory": false
     },
     "rules": {
         "no-unused-expressions": 0

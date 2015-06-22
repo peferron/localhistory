@@ -3,7 +3,7 @@
         "jquery": true
     },
     "globals": {
-        "localhistory": true
+        "localhistory": false
     },
     "rules": {
         "no-alert": 0,
