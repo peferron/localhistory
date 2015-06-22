@@ -96,7 +96,7 @@ const entries = await localhistory.load('myhistory');
 
 ## localhistory.clear(key, [callback])
 
-Clears history, removing all entries.
+Clears history, removing all previously appended entries.
 
 ##### Arguments
 
