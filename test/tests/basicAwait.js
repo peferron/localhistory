@@ -8,7 +8,7 @@ describe('after clearing', () => {
         expect(entries).to.deep.equal([]);
     });
 
-    describe('and saving a first entry', () => {
+    describe('and appending a first entry', () => {
         const first = {first: '1'};
 
         beforeEach(async () => {
@@ -20,7 +20,7 @@ describe('after clearing', () => {
             expect(entries).to.deep.equal([first]);
         });
 
-        describe('and saving a second entry', () => {
+        describe('and appending a second entry', () => {
             const second = {second: '2'};
 
             beforeEach(async () => {

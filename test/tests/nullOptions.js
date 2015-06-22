@@ -3,7 +3,7 @@ describe('after clearing', () => {
 
     const entry = {first: '1'};
 
-    describe('and saving an entry without options', () => {
+    describe('and appending an entry without options', () => {
         beforeEach(() => localhistory.append('test', entry));
 
         it('should load the first entry', () =>
@@ -11,7 +11,7 @@ describe('after clearing', () => {
         );
     });
 
-    describe('and saving an entry with options = null', () => {
+    describe('and appending an entry with options = null', () => {
         const first = {first: '1'};
 
         beforeEach(() => localhistory.append('test', first, null));

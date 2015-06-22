@@ -1,12 +1,12 @@
 describe('after clearing', () => {
     beforeEach(() => localhistory.clear('test'));
 
-    describe('and saving a first entry', () => {
+    describe('and appending a first entry', () => {
         const first = {first: '1'};
 
         beforeEach(() => localhistory.append('test', first));
 
-        describe('and saving the first entry again with appendIfEqualToLast not set', () => {
+        describe('and appending the first entry again with appendIfEqualToLast not set', () => {
             beforeEach(() => localhistory.append('test', first));
 
             it('should load the first entry twice', () =>
@@ -14,7 +14,7 @@ describe('after clearing', () => {
             );
         });
 
-        describe('and saving the first entry again with appendIfEqualToLast = false', () => {
+        describe('and appending the first entry again with appendIfEqualToLast = false', () => {
             beforeEach(() => localhistory.append('test', first, {appendIfEqualToLast: false}));
 
             it('should load the first entry only once', () =>

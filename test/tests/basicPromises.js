@@ -5,7 +5,7 @@ describe('after clearing', () => {
         expect(localhistory.load('test')).to.eventually.deep.equal([])
     );
 
-    describe('and saving a first entry', () => {
+    describe('and appending a first entry', () => {
         const first = {first: '1'};
 
         beforeEach(() => localhistory.append('test', first));
@@ -14,7 +14,7 @@ describe('after clearing', () => {
             expect(localhistory.load('test')).to.eventually.deep.equal([first])
         );
 
-        describe('and saving a second entry', () => {
+        describe('and appending a second entry', () => {
             const second = {second: '2'};
 
             beforeEach(() => localhistory.append('test', second));

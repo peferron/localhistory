@@ -11,7 +11,7 @@ describe('after clearing', () => {
         });
     });
 
-    describe('and saving a first entry', () => {
+    describe('and appending a first entry', () => {
         const first = {first: '1'};
 
         beforeEach((done) => {
@@ -26,7 +26,7 @@ describe('after clearing', () => {
             });
         });
 
-        describe('and saving a second entry', () => {
+        describe('and appending a second entry', () => {
             const second = {second: '2'};
 
             beforeEach((done) => {

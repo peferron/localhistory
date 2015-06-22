@@ -38,7 +38,7 @@ describe('after clearing', () => {
         }
     });
 
-    it('should keep in sync when saving more entries than maxEntries', async () => {
+    it('should keep in sync when appending more entries than maxEntries', async () => {
         for (let i = 0; i < 3 * maxEntries; i++) {
             await append();
             if (Math.random() < 0.2) {

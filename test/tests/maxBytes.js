@@ -1,12 +1,12 @@
 describe('after clearing', () => {
     beforeEach(() => localhistory.clear('test'));
 
-    it('should return an error if saving a entry bigger than maxBytes', () =>
+    it('should return an error if appending a entry bigger than maxBytes', () =>
         expect(localhistory.append('test', '6th', {maxBytes: 10})).to.be.rejectedWith(Error,
             'Could not append entry of length 7 (14 bytes), maxBytes is 10')
     );
 
-    describe('and saving 5 entries without maxBytes', () => {
+    describe('and appending 5 entries without maxBytes', () => {
         beforeEach(async () => {
             await localhistory.clear('test');
             await localhistory.append('test', '1st');
@@ -21,7 +21,7 @@ describe('after clearing', () => {
                 ['1st', '2nd', '3rd', '4th', '5th'])
         );
 
-        describe('and saving 1 entry with maxBytes = 40', () => {
+        describe('and appending 1 entry with maxBytes = 40', () => {
             beforeEach(() =>
                 localhistory.append('test', '6th', {maxBytes: 40})
             );

@@ -8,7 +8,7 @@ describe('after storing non-JSON data', () => {
             `SyntaxError: Unable to parse JSON string`)
     );
 
-    describe('and saving a first entry', () => {
+    describe('and appending a first entry', () => {
         beforeEach(() => localhistory.append('test', 'first'));
 
         it('should load the first entry', () =>
@@ -29,7 +29,7 @@ describe('after storing non-Array data', () => {
             `Error: Loaded entries are not an Array`)
     );
 
-    describe('and saving a first entry', () => {
+    describe('and appending a first entry', () => {
         beforeEach(() => localhistory.append('test', 'first'));
 
         it('should load the first entry', () =>
