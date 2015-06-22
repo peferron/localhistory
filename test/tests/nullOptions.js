@@ -16,7 +16,7 @@ describe('after clearing', () => {
 
         beforeEach(() => localhistory.append('test', first, null));
 
-        it.only('should load the first entry', () =>
+        it('should load the first entry', () =>
             expect(localhistory.load('test')).to.eventually.deep.equal([entry])
         );
     });
